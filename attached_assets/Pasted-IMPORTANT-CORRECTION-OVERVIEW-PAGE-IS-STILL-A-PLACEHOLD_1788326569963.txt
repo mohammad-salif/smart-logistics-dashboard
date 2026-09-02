@@ -1,0 +1,215 @@
+IMPORTANT CORRECTION — OVERVIEW PAGE IS STILL A PLACEHOLDER
+
+The Overview page is NOT implemented yet.
+
+Current Preview still shows:
+
+"Overview
+This page has not been built yet."
+
+Fix this now.
+
+Build ONLY the Overview page.
+
+DO NOT modify:
+- Live Map
+- Vehicles
+- Routes
+- Incidents
+- Alerts
+- Deliveries
+- Analytics
+- Sidebar/navigation
+- Existing global styling
+
+PURPOSE:
+
+Overview must be the main operational dashboard of the application.
+
+It must provide a quick operational picture using the EXISTING mock datasets.
+
+REQUIRED SECTIONS:
+
+1. KPI CARDS
+
+Show:
+
+- Active Vehicles
+- Accessible Routes
+- High-Risk Routes
+- Blocked Routes
+- Active Deliveries
+- Critical Alerts
+
+These values MUST be calculated from the existing mock datasets.
+
+Do not hardcode separate values.
+
+2. DOMINANT MAP AREA
+
+Create a large simulated geographic map area similar in visual language to the existing Live Map page.
+
+Show existing mock:
+
+- Vehicles
+- Routes
+- Incidents
+- Accessible routes
+- At-risk routes
+- Blocked routes
+
+IMPORTANT:
+Use the SAME mock data/entities already used by Live Map.
+
+Do not create a second map dataset.
+
+The map is simulated only.
+
+3. MAP LEGEND
+
+Show:
+
+- Accessible
+- At Risk
+- Blocked
+- Vehicle
+- Incident
+
+4. PRIORITY ALERTS
+
+Show a compact list using the EXISTING Alerts dataset.
+
+Include important existing alert information such as:
+
+- Alert type
+- Severity
+- Related entity
+- Location
+- Status
+
+Do not invent additional alert information.
+
+5. PRIORITY DELIVERIES
+
+Show a compact table using the EXISTING Deliveries dataset.
+
+Columns:
+
+- Delivery ID
+- Commodity
+- Origin
+- Destination
+- Status
+- ETA
+- Risk
+
+Do not create a new delivery dataset.
+
+6. RECENT INCIDENTS
+
+Show a compact list/table using the EXISTING Incidents dataset.
+
+Display:
+
+- Incident type
+- Location
+- Severity
+- Report time
+- Status
+
+Do not create a new incident dataset.
+
+DATA CONSISTENCY:
+
+Overview must use the same existing data used by:
+
+- Live Map
+- Vehicles
+- Routes
+- Incidents
+- Alerts
+- Deliveries
+- Analytics
+
+Keep IDs consistent.
+
+Examples:
+
+Vehicle → Route
+Delivery → Vehicle
+Delivery → Route
+Incident → Route/Location
+Alert → Vehicle/Route/Delivery
+
+Do not create duplicate datasets.
+
+DATA HONESTY:
+
+All information is simulated/demo data.
+
+Clearly indicate:
+
+"Simulated operational data — demo environment"
+
+Do NOT imply:
+
+- real-time tracking
+- real GPS
+- real incidents
+- real road conditions
+- real AI predictions
+- real delivery operations
+- real-world statistics
+
+VISUAL:
+
+Match the existing application exactly.
+
+Use the current:
+- dark slate background
+- teal/cyan accents
+- green for accessible/normal
+- amber for warning/risk
+- red for blocked/critical
+- neutral for information
+
+Avoid redesigning the application.
+
+Do not add:
+- excessive gradients
+- glassmorphism
+- neon effects
+- gaming aesthetics
+- giant graphics
+- excessive animation
+
+RESPONSIVE:
+
+Make Overview usable on:
+- desktop
+- tablet
+- mobile
+
+Avoid unnecessary horizontal overflow.
+
+VERIFICATION:
+
+After implementation:
+
+1. Click Overview in the sidebar.
+2. Confirm the placeholder text is completely gone.
+3. Confirm the real Overview dashboard renders.
+4. Confirm all six KPI cards render.
+5. Confirm the map renders.
+6. Confirm Priority Alerts renders.
+7. Confirm Priority Deliveries renders.
+8. Confirm Recent Incidents renders.
+9. Confirm all displayed data comes from existing mock datasets.
+10. Confirm no duplicate datasets were created.
+11. Confirm existing pages remain unchanged.
+12. Run TypeScript/build checks.
+13. Confirm there are no console/runtime errors.
+
+DO NOT implement Prompt 11.
+DO NOT modify Settings.
+ONLY fix and complete the Overview page.

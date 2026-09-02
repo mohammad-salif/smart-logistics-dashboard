@@ -19,6 +19,7 @@ import { IncidentsPage } from '@/pages/IncidentsPage';
 import { AlertsPage } from '@/pages/AlertsPage';
 import { DeliveriesPage } from '@/pages/DeliveriesPage';
 import { AnalyticsPage } from '@/pages/AnalyticsPage';
+import { OverviewPage } from '@/pages/OverviewPage';
 
 type NavKey =
   | 'overview'
@@ -67,6 +68,8 @@ function App() {
   let content: ReactNode;
   if (activePage === 'live-map') {
     content = <LiveMapPage />;
+  } else if (activePage === 'overview') {
+    content = <OverviewPage />;
   } else if (activePage === 'routes') {
     content = <RoutesPage />;
   } else if (activePage === 'vehicles') {
