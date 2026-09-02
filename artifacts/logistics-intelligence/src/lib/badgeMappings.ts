@@ -5,6 +5,8 @@ import type {
   Severity,
   RouteStatus,
   FleetVehicleStatus,
+  AlertSeverity,
+  AlertStatus,
 } from '@/types';
 import type { BadgeProps } from '@/components/ui/Badge';
 
@@ -64,6 +66,25 @@ export function routeStatusToBadgeVariant(status: RouteStatus): BadgeVariant {
     accessible: 'accessible',
     'at-risk': 'at-risk',
     blocked: 'blocked',
+  };
+  return map[status];
+}
+
+export function alertSeverityToBadgeVariant(severity: AlertSeverity): BadgeVariant {
+  const map: Record<AlertSeverity, BadgeVariant> = {
+    Info: 'neutral',
+    Warning: 'moderate',
+    High: 'high',
+    Critical: 'critical',
+  };
+  return map[severity];
+}
+
+export function alertStatusToBadgeVariant(status: AlertStatus): BadgeVariant {
+  const map: Record<AlertStatus, BadgeVariant> = {
+    Active: 'reported',
+    Acknowledged: 'under-review',
+    Resolved: 'resolved',
   };
   return map[status];
 }

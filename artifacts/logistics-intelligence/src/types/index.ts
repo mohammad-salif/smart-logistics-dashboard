@@ -107,3 +107,25 @@ export type VehicleListFilter =
   | 'Offline'
   | 'At Risk'
   | 'Blocked';
+
+export type AlertType =
+  | 'High Route Risk'
+  | 'Road Blockage'
+  | 'Delivery Delay'
+  | 'Accessibility Disruption'
+  | 'Vehicle Risk';
+
+export type AlertSeverity = 'Info' | 'Warning' | 'High' | 'Critical';
+export type AlertStatus = 'Active' | 'Acknowledged' | 'Resolved';
+
+export interface Alert {
+  id: string;
+  type: AlertType;
+  severity: AlertSeverity;
+  routeId?: string;
+  vehicleId?: string;
+  deliveryId?: string | null;
+  location: string;
+  timestamp: string;
+  status: AlertStatus;
+}

@@ -1,0 +1,226 @@
+PROMPT 7 — ALERTS PAGE
+
+Build ONLY the Alerts page of the existing project.
+
+IMPORTANT:
+- Do not redesign or change the existing sidebar/navigation.
+- Do not modify the already completed Live Map, Vehicles, Routes, or Incidents pages.
+- Do not change the existing color palette, typography, spacing system, or overall visual language.
+- Do not add a database, authentication, backend, external APIs, GPS services, weather services, routing services, or messaging services.
+- Use simulated/mock data only.
+- Do not create features that are not explicitly requested.
+- Reuse existing components, styling patterns, icons, status badges, table/list patterns, filters, and detail-panel/modal patterns wherever possible.
+- Alerts page must feel like the same professional logistics operations platform.
+
+PURPOSE:
+
+Provide a centralized view of operational alerts.
+
+SUPPORTED ALERT TYPES:
+
+- High Route Risk
+- Road Blockage
+- Delivery Delay
+- Accessibility Disruption
+- Vehicle Risk
+
+Each alert must contain:
+
+- Alert ID
+- Alert Type
+- Severity
+- Related Route / Vehicle / Delivery
+- Location
+- Timestamp
+- Status
+
+SEVERITY:
+
+- Info
+- Warning
+- High
+- Critical
+
+STATUS:
+
+- Active
+- Acknowledged
+- Resolved
+
+ALERT LIST:
+
+Create a professional responsive alert list/table showing the required fields.
+
+Use clear text labels and semantic status indicators.
+Do not rely only on color.
+
+SUMMARY:
+
+Add a compact summary section based on the existing mock alert dataset where appropriate:
+
+- Total Alerts
+- Active
+- Acknowledged
+- Resolved
+- High/Critical
+
+Summary values must come from the underlying mock alert dataset.
+Do not hardcode inconsistent numbers.
+
+FILTERS:
+
+Provide working filters for:
+
+- All
+- Info
+- Warning
+- High
+- Critical
+- Active
+- Acknowledged
+- Resolved
+
+Filters should work correctly with the alert list.
+
+SEARCH:
+
+Provide search functionality for:
+
+- Alert ID
+- Alert Type
+- Related Route
+- Related Vehicle
+- Related Delivery
+- Location
+
+Search and filters should work together.
+
+ALERT DETAIL PANEL:
+
+Clicking an alert should open a detail panel/modal.
+
+Show:
+
+- Alert ID
+- Alert Type
+- Severity
+- Related Route / Vehicle / Delivery
+- Location
+- Timestamp
+- Status
+
+If the related entity exists in the mock data, keep its ID consistent with the existing dataset.
+
+DATA RELATIONSHIPS:
+
+Use the existing mock datasets wherever possible.
+
+Examples:
+- Route references must match existing route IDs.
+- Vehicle references must match existing vehicle IDs.
+- Delivery references must match existing delivery IDs.
+
+Do not create duplicate or conflicting datasets.
+
+IMPORTANT:
+
+All alerts are simulated.
+
+Do not claim they come from:
+- real AI systems
+- real weather services
+- real GPS systems
+- real authorities
+- real traffic systems
+- real users
+- external monitoring systems
+- any external service
+
+Do not describe alerts as actual real-world events.
+
+Do not claim that a route risk alert is an actual AI prediction.
+
+Do not add:
+
+- SMS notifications
+- WhatsApp
+- email notifications
+- push notifications
+- messaging
+- notification integrations
+- external alert services
+
+Focus ONLY on dashboard representation of alerts.
+
+DATA HONESTY:
+
+Display a clear indication where appropriate such as:
+
+"Simulated alerts — demo environment"
+
+SERVICE STRUCTURE:
+
+Keep alert data/service logic separate from UI components.
+
+Prefer the existing mock-data/service structure already used by the application.
+
+Do not create unnecessary folders or architecture.
+
+RESPONSIVE:
+
+Desktop:
+- Clear operational alert list
+- Compact summary section
+- Easy-to-read filters
+- Detail panel should be easy to inspect
+
+Tablet/mobile:
+- Adapt the layout appropriately
+- Avoid unnecessary horizontal overflow
+- Preserve readability
+
+VISUAL:
+
+Maintain the existing professional logistics dashboard style:
+
+- dark slate + teal
+- green/teal = normal/resolved
+- amber = warning
+- red = high/critical
+- neutral = information
+
+Avoid:
+- excessive gradients
+- glassmorphism
+- neon effects
+- gaming aesthetics
+- excessive animation
+- giant decorative graphics
+- unnecessary rounded containers
+
+VERIFICATION:
+
+After implementation, verify:
+
+- Alerts page loads correctly
+- Navigation to Alerts works
+- Alert list renders correctly
+- Mock alerts are visible
+- Summary counts match the mock dataset
+- Severity filters work
+- Status filters work
+- Search works
+- Search + filters work together
+- Clicking an alert opens the detail panel
+- Detail panel closes correctly
+- Related Route / Vehicle / Delivery IDs are consistent
+- No real external data is used
+- No notification/messaging functionality was added
+- Existing Incidents page remains unchanged
+- Existing Routes page remains unchanged
+- Existing Vehicles and Live Map pages remain unchanged
+- No build errors
+- No console/runtime errors
+
+Do not implement the next module.
+Only build and verify the Alerts page.

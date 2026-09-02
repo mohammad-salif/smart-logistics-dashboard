@@ -4,6 +4,7 @@ import {
   Map as MapIcon,
   Truck,
   AlertTriangle,
+  BellRing,
   Package,
   Route as RouteIcon,
   Settings,
@@ -14,6 +15,7 @@ import { LiveMapPage } from '@/pages/LiveMapPage';
 import { RoutesPage } from '@/pages/RoutesPage';
 import { VehiclesPage } from '@/pages/VehiclesPage';
 import { IncidentsPage } from '@/pages/IncidentsPage';
+import { AlertsPage } from '@/pages/AlertsPage';
 
 type NavKey =
   | 'overview'
@@ -21,6 +23,7 @@ type NavKey =
   | 'routes'
   | 'vehicles'
   | 'incidents'
+  | 'alerts'
   | 'deliveries'
   | 'settings';
 
@@ -36,6 +39,7 @@ const navItems: NavItem[] = [
   { key: 'routes', label: 'Routes', icon: RouteIcon },
   { key: 'vehicles', label: 'Vehicles', icon: Truck },
   { key: 'incidents', label: 'Incidents', icon: AlertTriangle },
+  { key: 'alerts', label: 'Alerts', icon: BellRing },
   { key: 'deliveries', label: 'Deliveries', icon: Package },
   { key: 'settings', label: 'Settings', icon: Settings },
 ];
@@ -46,6 +50,7 @@ const placeholderPages: Record<NavKey, string> = {
   routes: 'Routes',
   vehicles: 'Vehicles',
   incidents: 'Incidents',
+  alerts: 'Alerts',
   deliveries: 'Deliveries',
   settings: 'Settings',
 };
@@ -62,6 +67,8 @@ function App() {
     content = <VehiclesPage />;
   } else if (activePage === 'incidents') {
     content = <IncidentsPage />;
+  } else if (activePage === 'alerts') {
+    content = <AlertsPage />;
   } else {
     content = (
       <div className="flex h-full flex-col items-center justify-center gap-3 text-slate-500">
