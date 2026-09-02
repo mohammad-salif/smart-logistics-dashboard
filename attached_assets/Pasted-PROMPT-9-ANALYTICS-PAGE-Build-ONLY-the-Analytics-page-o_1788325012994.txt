@@ -1,0 +1,204 @@
+PROMPT 9 — ANALYTICS PAGE
+
+Build ONLY the Analytics page of the existing project.
+
+IMPORTANT:
+- Do not redesign or change the existing sidebar/navigation.
+- Do not modify the already completed Live Map, Vehicles, Routes, Incidents, Alerts, or Deliveries pages.
+- Do not change the existing color palette, typography, spacing system, or overall visual language.
+- Do not add a database, authentication, backend, external APIs, GPS services, weather services, routing services, or other external services.
+- Use the application's existing mock datasets only.
+- Do not create duplicate datasets.
+- Do not create analytics data separately from the underlying mock data.
+- Do not create features beyond the analytics explicitly requested below.
+- Reuse existing chart, card, typography, spacing, and component patterns where possible.
+
+PURPOSE:
+
+Provide analytical views of the application's simulated logistics data.
+
+ONLY INCLUDE THESE ANALYTICS:
+
+1. Route accessibility distribution
+2. Vehicle status distribution
+3. Incident severity distribution
+4. Delivery status distribution
+5. Route risk trend
+
+Do not add unrelated business analytics.
+
+DATA SOURCE:
+
+All analytics must be derived from the application's existing mock datasets.
+
+Use the existing datasets for:
+- Routes
+- Vehicles
+- Incidents
+- Deliveries
+
+Do not hardcode independent analytics values.
+
+ROUTE ACCESSIBILITY DISTRIBUTION:
+
+Show the distribution of routes by:
+
+- Accessible
+- Partially Accessible
+- Blocked
+
+Calculate counts from the existing route dataset.
+
+If percentages are displayed, calculate them from the actual mock route data.
+
+VEHICLE STATUS DISTRIBUTION:
+
+Show the distribution of vehicles by their existing status.
+
+Use the existing vehicle statuses from the Vehicles page.
+
+Calculate counts from the mock vehicle dataset.
+
+INCIDENT SEVERITY DISTRIBUTION:
+
+Show the distribution of incidents by:
+
+- Low
+- Medium
+- High
+- Critical
+
+Calculate counts directly from the existing incident dataset.
+
+DELIVERY STATUS DISTRIBUTION:
+
+Show the distribution of deliveries by:
+
+- Planned
+- In Transit
+- Delayed
+- Delivered
+- At Risk
+
+Calculate counts directly from the existing delivery dataset.
+
+ROUTE RISK TREND:
+
+Create a simple trend visualization based on the available mock route-risk data.
+
+IMPORTANT:
+- Do not invent time-series data that does not exist.
+- If the existing mock dataset contains time/date information suitable for a trend, derive the trend from it.
+- If sufficient temporal data does not exist, do not fabricate a realistic-looking historical trend.
+- Instead, clearly represent the available mock risk data in a way that does not imply real historical measurements.
+
+CHARTS:
+
+Use charts where they improve understanding.
+
+Choose clear chart types appropriate to each dataset, for example:
+- bar chart
+- donut/pie chart
+- line chart where valid trend data exists
+
+Do not add charts simply for decoration.
+
+DATA CONSISTENCY:
+
+The Analytics page must use the same mock data as the other pages.
+
+Examples:
+
+Routes analytics → existing Routes data
+Vehicle analytics → existing Vehicles data
+Incident analytics → existing Incidents data
+Delivery analytics → existing Deliveries data
+
+Do not create a second conflicting version of any dataset.
+
+IMPORTANT:
+
+If the underlying mock data changes, analytics should update accordingly.
+
+PERCENTAGES:
+
+Never hardcode fake percentages.
+
+If a percentage is shown:
+
+percentage = category count / total count × 100
+
+Use the actual current mock dataset.
+
+DATA HONESTY:
+
+Clearly identify the analytics as simulated/demo data where appropriate.
+
+Use wording such as:
+
+"Analytics based on simulated application data"
+
+Do not present any chart or number as:
+- real-world statistics
+- live operational statistics
+- real AI predictions
+- real logistics measurements
+- real incident statistics
+
+Do not imply that the data comes from external systems.
+
+VISUAL:
+
+Maintain the existing professional logistics operations dashboard style:
+
+- dark slate + teal
+- green/teal = accessible/normal
+- amber = warning/risk
+- red = critical/blocked
+- neutral = information
+
+Do not rely only on color; include labels and readable values.
+
+Avoid:
+- excessive gradients
+- glassmorphism
+- neon effects
+- gaming aesthetics
+- excessive animations
+- giant decorative graphics
+- unnecessary rounded containers
+
+RESPONSIVE:
+
+Desktop:
+- Clear analytics dashboard
+- Good spacing between charts
+- Easy-to-read labels and values
+
+Tablet/mobile:
+- Charts should adapt to available width
+- Avoid unnecessary horizontal overflow
+- Preserve readability
+
+VERIFICATION:
+
+After implementation, verify:
+
+- Analytics page loads correctly
+- Navigation to Analytics works
+- Route accessibility distribution is derived from existing route data
+- Vehicle status distribution is derived from existing vehicle data
+- Incident severity distribution is derived from existing incident data
+- Delivery status distribution is derived from existing delivery data
+- Route risk trend uses only available mock data
+- Percentages are calculated rather than hardcoded
+- No fabricated historical trend is presented as real
+- No duplicate datasets were created
+- Existing pages remain unchanged
+- No external APIs or services were added
+- No backend/database/GPS integration was added
+- No build errors
+- No console/runtime errors
+
+Do not implement the next module.
+Only build and verify the Analytics page.

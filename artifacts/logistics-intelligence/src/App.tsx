@@ -9,6 +9,7 @@ import {
   Route as RouteIcon,
   Settings,
   Radar,
+  BarChart3,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { LiveMapPage } from '@/pages/LiveMapPage';
@@ -17,6 +18,7 @@ import { VehiclesPage } from '@/pages/VehiclesPage';
 import { IncidentsPage } from '@/pages/IncidentsPage';
 import { AlertsPage } from '@/pages/AlertsPage';
 import { DeliveriesPage } from '@/pages/DeliveriesPage';
+import { AnalyticsPage } from '@/pages/AnalyticsPage';
 
 type NavKey =
   | 'overview'
@@ -26,6 +28,7 @@ type NavKey =
   | 'incidents'
   | 'alerts'
   | 'deliveries'
+  | 'analytics'
   | 'settings';
 
 interface NavItem {
@@ -42,6 +45,7 @@ const navItems: NavItem[] = [
   { key: 'incidents', label: 'Incidents', icon: AlertTriangle },
   { key: 'alerts', label: 'Alerts', icon: BellRing },
   { key: 'deliveries', label: 'Deliveries', icon: Package },
+  { key: 'analytics', label: 'Analytics', icon: BarChart3 },
   { key: 'settings', label: 'Settings', icon: Settings },
 ];
 
@@ -53,6 +57,7 @@ const placeholderPages: Record<NavKey, string> = {
   incidents: 'Incidents',
   alerts: 'Alerts',
   deliveries: 'Deliveries',
+  analytics: '',
   settings: 'Settings',
 };
 
@@ -72,6 +77,8 @@ function App() {
     content = <AlertsPage />;
   } else if (activePage === 'deliveries') {
     content = <DeliveriesPage />;
+  } else if (activePage === 'analytics') {
+    content = <AnalyticsPage />;
   } else {
     content = (
       <div className="flex h-full flex-col items-center justify-center gap-3 text-slate-500">
