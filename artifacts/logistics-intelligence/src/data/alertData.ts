@@ -1,7 +1,7 @@
 import type { Alert } from '@/types';
 
-// Deterministic demo records. Route and vehicle IDs intentionally reference
-// the existing simulated route and fleet datasets; deliveries are not modeled.
+// Deterministic demo records. Route, vehicle, and delivery IDs intentionally
+// reference the existing simulated datasets.
 export const mockAlerts: Alert[] = [
   {
     id: 'ALR-7001',
@@ -42,7 +42,7 @@ export const mockAlerts: Alert[] = [
     severity: 'Warning',
     routeId: 'RTE-105',
     vehicleId: 'VHC-2047',
-    deliveryId: null,
+    deliveryId: 'DLV-6003',
     location: 'Midpoint Junction — Loading bay',
     timestamp: '1 hr ago',
     status: 'Acknowledged',
@@ -95,10 +95,10 @@ export const mockAlerts: Alert[] = [
     id: 'ALR-7009',
     type: 'Delivery Delay',
     severity: 'Warning',
-    routeId: 'RTE-106',
-    vehicleId: 'VHC-2045',
-    deliveryId: null,
-    location: 'Central Cross — Transfer point',
+    routeId: 'RTE-102',
+    vehicleId: 'VHC-2042',
+    deliveryId: 'DLV-6005',
+    location: 'Corridor Beta — Southport approach',
     timestamp: '5 hr ago',
     status: 'Active',
   },

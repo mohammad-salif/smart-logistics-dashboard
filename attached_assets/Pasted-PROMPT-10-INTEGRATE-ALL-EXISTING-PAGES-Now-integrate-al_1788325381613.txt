@@ -1,0 +1,215 @@
+PROMPT 10 — INTEGRATE ALL EXISTING PAGES
+
+Now integrate all existing pages into one consistent application.
+
+IMPORTANT:
+
+- Do not redesign the application.
+- Do not add new features.
+- Do not remove existing required features.
+- Do not change the existing information architecture.
+- Do not create duplicate datasets.
+- Do not modify the visual design unnecessarily.
+- Preserve the existing sidebar/navigation structure.
+- Preserve the existing page layouts unless a small change is required to fix a data relationship or navigation issue.
+
+EXISTING PAGES:
+
+- Overview
+- Live Map
+- Vehicles
+- Routes
+- Incidents
+- Alerts
+- Deliveries
+- Analytics
+
+DATA SOURCE:
+
+Use the existing mock data as the single source of truth.
+
+Do not maintain multiple conflicting versions of the same entity.
+
+DATA RELATIONSHIPS:
+
+Vehicle → Route
+
+A vehicle should reference a route.
+
+Delivery → Vehicle
+
+A delivery should reference a vehicle.
+
+Delivery → Route
+
+A delivery should reference its current route.
+
+Incident → Route / Location
+
+An incident can reference a simulated route or location.
+
+Alert → Vehicle / Route / Delivery
+
+An alert can reference the relevant operational entity.
+
+USE CONSISTENT IDs.
+
+Examples:
+
+Vehicle:
+V-001
+
+Route:
+R-001
+
+Delivery:
+D-001
+
+Incident:
+INC-001
+
+Alert:
+ALR-001
+
+If D-001 uses V-001, the application should be able to resolve that relationship.
+
+If V-001 references R-001, that relationship should also resolve correctly.
+
+IMPORTANT:
+
+- Reuse existing IDs already present in the project.
+- Do not rename IDs unnecessarily.
+- Do not create duplicate entity records just to satisfy relationships.
+- Do not invent new data when an existing mock record can be reused.
+
+CROSS-PAGE CONSISTENCY:
+
+Verify that:
+
+Vehicles page
+→ references existing Routes
+
+Routes page
+→ contains routes referenced by Vehicles and Deliveries
+
+Deliveries page
+→ references existing Vehicles and Routes
+
+Incidents page
+→ references valid simulated Routes where applicable
+
+Alerts page
+→ references valid Vehicles, Routes, and Deliveries where applicable
+
+Analytics page
+→ derives its values from the same existing datasets
+
+MAP:
+
+The Live Map must use the same mock data as the other pages.
+
+Do not create a separate map-only dataset containing conflicting vehicles or routes.
+
+If the map displays a vehicle with ID V-001, that vehicle should correspond to the existing V-001 mock vehicle.
+
+If the map displays route R-001, that route should correspond to the existing R-001 route.
+
+ANALYTICS:
+
+Analytics must also derive from the same mock datasets.
+
+Do not hardcode separate statistics.
+
+Do not maintain duplicate analytics data.
+
+INTERACTION:
+
+Clicking an entity should provide access to its relevant details using the existing page interactions.
+
+Examples:
+
+Vehicle → Vehicle details
+Route → Route details
+Delivery → Delivery details
+Incident → Incident details
+Alert → Alert details
+
+Do not add a new complex navigation system.
+Use the application's existing interaction patterns.
+
+SERVICES / ARCHITECTURE:
+
+Keep service/API abstractions separate from UI components.
+
+The application should remain frontend-only with mock data.
+
+Do not add:
+
+- database
+- authentication
+- real backend
+- AI/ML API
+- GPS integration
+- weather API
+- real routing service
+- external notification service
+- external data provider
+
+DATA HONESTY:
+
+All current operational information remains simulated/demo data.
+
+Do not present:
+- mock GPS values as real GPS
+- mock risk scores as actual AI predictions
+- mock incidents as real incidents
+- mock vehicle positions as live tracking
+- mock route conditions as real-world conditions
+- mock analytics as real-world statistics
+
+Preserve existing demo/simulated-data indicators.
+
+VERIFICATION:
+
+Perform a complete consistency check.
+
+Verify:
+
+1. All required pages are accessible from navigation.
+2. No navigation links are broken.
+3. Vehicle IDs resolve correctly.
+4. Route IDs resolve correctly.
+5. Delivery → Vehicle relationships resolve correctly.
+6. Delivery → Route relationships resolve correctly.
+7. Incident route references resolve correctly where present.
+8. Alert route references resolve correctly where present.
+9. Alert vehicle references resolve correctly where present.
+10. Alert delivery references resolve correctly where present.
+11. Live Map uses the same mock vehicle and route data.
+12. Analytics uses the same mock datasets.
+13. No duplicate/conflicting datasets exist.
+14. No inconsistent IDs exist.
+15. Existing page functionality still works.
+16. Search/filter interactions still work.
+17. Existing detail panels/modals still work.
+18. No external services were added.
+19. No backend/database integration was added.
+20. No build errors exist.
+21. No TypeScript errors exist.
+22. No console/runtime application errors exist.
+
+IMPORTANT:
+
+Do not perform a UI redesign during this task.
+
+Do not add new functionality.
+
+Only integrate and verify the existing pages and data relationships.
+
+After integration, provide a concise report of:
+- pages verified
+- data relationships verified
+- any issues found
+- build/runtime status
+
+Do not implement Prompt 11 UI/UX refinement yet.

@@ -86,7 +86,7 @@ export function AlertsPage() {
 
       <div className="flex items-center justify-center gap-2 pb-2 text-center text-xs text-slate-600">
         <AlertTriangle className="h-3.5 w-3.5" />
-        <span>Simulated alerts — demo environment. Delivery relationships are not modeled.</span>
+        <span>Simulated alerts — demo environment. Delivery links are shown where available.</span>
       </div>
 
       {selectedAlert && (

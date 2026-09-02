@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import type { Alert } from '@/types';
 import { alertSeverityToBadgeVariant, alertStatusToBadgeVariant } from '@/lib/badgeMappings';
 import { Badge } from '@/components/ui/Badge';
+import { getDeliveryById } from '@/services/deliveryService';
 
 interface AlertDetailModalProps {
   alert: Alert;
@@ -19,6 +20,8 @@ function DetailRow({ label, children }: { label: string; children: ReactNode }) 
 }
 
 export function AlertDetailModal({ alert, onClose }: AlertDetailModalProps) {
+  const delivery = alert.deliveryId ? getDeliveryById(alert.deliveryId) : undefined;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
@@ -89,7 +92,14 @@ export function AlertDetailModal({ alert, onClose }: AlertDetailModalProps) {
             <span className="flex items-center gap-2"><Truck className="h-3.5 w-3.5 text-slate-500" />{alert.vehicleId ?? 'No vehicle linked'}</span>
           </DetailRow>
           <DetailRow label="Related Delivery">
-            <span className="text-slate-500">{alert.deliveryId ?? 'No delivery linked — delivery data is not modeled'}</span>
+            {delivery ? (
+              <span className="flex flex-col items-end gap-1">
+                <span className="font-mono text-slate-200">{delivery.id}</span>
+                <span className="text-xs text-slate-500">{delivery.commodity} · {delivery.status}</span>
+              </span>
+            ) : (
+              <span className="text-slate-500">{alert.deliveryId ?? 'No delivery linked'}</span>
+            )}
           </DetailRow>
 
         </div>
