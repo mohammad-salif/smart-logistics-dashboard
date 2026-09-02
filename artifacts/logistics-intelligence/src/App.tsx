@@ -16,6 +16,7 @@ import { RoutesPage } from '@/pages/RoutesPage';
 import { VehiclesPage } from '@/pages/VehiclesPage';
 import { IncidentsPage } from '@/pages/IncidentsPage';
 import { AlertsPage } from '@/pages/AlertsPage';
+import { DeliveriesPage } from '@/pages/DeliveriesPage';
 
 type NavKey =
   | 'overview'
@@ -69,6 +70,8 @@ function App() {
     content = <IncidentsPage />;
   } else if (activePage === 'alerts') {
     content = <AlertsPage />;
+  } else if (activePage === 'deliveries') {
+    content = <DeliveriesPage />;
   } else {
     content = (
       <div className="flex h-full flex-col items-center justify-center gap-3 text-slate-500">

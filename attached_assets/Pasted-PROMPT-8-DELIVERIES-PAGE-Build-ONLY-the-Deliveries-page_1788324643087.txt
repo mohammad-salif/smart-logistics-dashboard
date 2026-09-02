@@ -1,0 +1,239 @@
+PROMPT 8 — DELIVERIES PAGE
+
+Build ONLY the Deliveries page of the existing project.
+
+IMPORTANT:
+- Do not redesign or change the existing sidebar/navigation.
+- Do not modify the already completed Live Map, Vehicles, Routes, Incidents, or Alerts pages.
+- Do not change the existing color palette, typography, spacing system, or overall visual language.
+- Do not add a database, authentication, backend, external APIs, GPS services, weather services, routing services, or messaging services.
+- Use mock data only.
+- Do not create features that are not explicitly requested.
+- Reuse the existing components, styling patterns, icons, status badges, tables/lists, detail panels, and mock-data structures wherever possible.
+- Deliveries page must feel like the same professional logistics operations platform.
+
+PURPOSE:
+
+Provide visibility into essential commodity deliveries.
+
+COMMODITY CATEGORIES:
+
+- Medicines
+- Food
+- Agricultural Produce
+- Construction Materials
+
+DELIVERY TABLE:
+
+Create a professional responsive table/list with:
+
+- Delivery ID
+- Commodity
+- Origin
+- Destination
+- Vehicle ID
+- Status
+- ETA
+- Route Risk
+
+STATUS:
+
+- Planned
+- In Transit
+- Delayed
+- Delivered
+- At Risk
+
+DETAIL PANEL:
+
+Clicking a delivery should open a detail panel/modal.
+
+Show:
+
+- Delivery ID
+- Commodity
+- Origin
+- Destination
+- Vehicle ID
+- Current Status
+- ETA
+- Route Risk
+- Current Route
+
+DELIVERY PROGRESS:
+
+Create a clear visual delivery progress indicator.
+
+The progress indicator should communicate the delivery stage using the existing mock status.
+
+Example stages can represent:
+Planned → In Transit → Delivered
+
+For:
+- Delayed
+- At Risk
+
+show the appropriate status without falsely implying real-time tracking.
+
+Use text labels in addition to visual indicators.
+
+IMPORTANT DATA RELATIONSHIPS:
+
+Keep delivery data connected to the existing mock datasets.
+
+Delivery → Vehicle
+- Vehicle ID must reference an existing vehicle.
+
+Delivery → Route
+- Current Route must reference an existing route.
+
+Use consistent existing IDs.
+
+Example:
+
+Vehicle:
+V-001
+
+Route:
+R-001
+
+Delivery:
+D-001
+
+If a delivery uses a vehicle and route, those IDs should resolve to the existing mock datasets.
+
+IMPORTANT:
+- Do not create duplicate vehicle or route datasets.
+- Do not create conflicting IDs.
+- Reuse the existing mock-data source wherever possible.
+- Keep relationships consistent with Vehicles and Routes pages.
+
+SUMMARY:
+
+Add a compact summary section based on the delivery mock dataset where appropriate:
+
+- Total Deliveries
+- Planned
+- In Transit
+- Delayed
+- Delivered
+- At Risk
+
+Calculate summary values from the underlying mock delivery dataset.
+Do not hardcode inconsistent values.
+
+FILTERS:
+
+Provide working filters for:
+
+- All
+- Planned
+- In Transit
+- Delayed
+- Delivered
+- At Risk
+
+SEARCH:
+
+Provide search functionality for:
+
+- Delivery ID
+- Commodity
+- Origin
+- Destination
+- Vehicle ID
+
+Search and filters should work together.
+
+DELIVERY DETAILS:
+
+The detail panel should clearly show the relationship between:
+
+Delivery → Vehicle → Current Route
+
+Use existing IDs and mock data.
+
+ROUTE RISK:
+
+Display the route risk associated with the delivery using the existing mock route information where possible.
+
+Do not invent new risk values for deliveries.
+
+Do not claim route risk is a real-world prediction.
+
+DATA HONESTY:
+
+Use mock/demo data only.
+
+Clearly indicate where appropriate:
+
+"Simulated delivery data — demo environment"
+
+Do not claim that the displayed deliveries represent actual real-world operations.
+
+Do not claim:
+- real-time delivery tracking
+- real GPS location
+- real ETA calculation
+- real route conditions
+- real logistics operations
+
+RESPONSIVE:
+
+Desktop:
+- Spacious delivery table
+- Clear summary section
+- Easy-to-read status and route risk
+- Detail panel should be easy to inspect
+
+Tablet/mobile:
+- Adapt the layout appropriately
+- Avoid unnecessary horizontal overflow
+- Preserve readability
+
+VISUAL:
+
+Maintain the existing professional logistics dashboard style:
+
+- dark slate + teal
+- green/teal = normal/delivered
+- amber = warning/delayed/at risk
+- red = critical where appropriate
+- neutral = information/planned
+
+Avoid:
+- excessive gradients
+- glassmorphism
+- neon effects
+- gaming aesthetics
+- excessive animation
+- giant decorative graphics
+- unnecessary rounded containers
+
+VERIFICATION:
+
+After implementation, verify:
+
+- Deliveries page loads correctly
+- Navigation to Deliveries works
+- Delivery table/list renders
+- Mock deliveries are visible
+- Summary counts match the mock dataset
+- Status filters work
+- Search works
+- Search + filters work together
+- Clicking a delivery opens the detail panel
+- Detail panel closes correctly
+- Vehicle IDs resolve to existing mock vehicles
+- Route IDs resolve to existing mock routes
+- Route risk comes from existing mock route data
+- Delivery progress indicator reflects the mock status
+- No real GPS or real tracking is used
+- No external API/backend was added
+- Existing Alerts page remains unchanged
+- Existing Incidents, Routes, Vehicles, and Live Map pages remain unchanged
+- No build errors
+- No console/runtime errors
+
+Do not implement the next module.
+Only build and verify the Deliveries page.

@@ -17,6 +17,30 @@ export type CargoCategory =
   | 'Construction'
   | 'Electronics';
 
+export type DeliveryCommodity =
+  | 'Medicines'
+  | 'Food'
+  | 'Agricultural Produce'
+  | 'Construction Materials';
+
+export type DeliveryStatus =
+  | 'Planned'
+  | 'In Transit'
+  | 'Delayed'
+  | 'Delivered'
+  | 'At Risk';
+
+export interface Delivery {
+  id: string;
+  commodity: DeliveryCommodity;
+  origin: string;
+  destination: string;
+  vehicleId: string;
+  routeId: string;
+  status: DeliveryStatus;
+  eta: string;
+}
+
 export interface MapPoint {
   x: number;
   y: number;

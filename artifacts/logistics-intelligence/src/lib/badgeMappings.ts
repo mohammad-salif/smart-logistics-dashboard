@@ -7,6 +7,7 @@ import type {
   FleetVehicleStatus,
   AlertSeverity,
   AlertStatus,
+  DeliveryStatus,
 } from '@/types';
 import type { BadgeProps } from '@/components/ui/Badge';
 
@@ -85,6 +86,17 @@ export function alertStatusToBadgeVariant(status: AlertStatus): BadgeVariant {
     Active: 'reported',
     Acknowledged: 'under-review',
     Resolved: 'resolved',
+  };
+  return map[status];
+}
+
+export function deliveryStatusToBadgeVariant(status: DeliveryStatus): BadgeVariant {
+  const map: Record<DeliveryStatus, BadgeVariant> = {
+    Planned: 'neutral',
+    'In Transit': 'in-transit',
+    Delayed: 'delayed',
+    Delivered: 'active',
+    'At Risk': 'at-risk',
   };
   return map[status];
 }
