@@ -13,6 +13,7 @@ import type { ReactNode } from 'react';
 import { LiveMapPage } from '@/pages/LiveMapPage';
 import { RoutesPage } from '@/pages/RoutesPage';
 import { VehiclesPage } from '@/pages/VehiclesPage';
+import { IncidentsPage } from '@/pages/IncidentsPage';
 
 type NavKey =
   | 'overview'
@@ -59,6 +60,8 @@ function App() {
     content = <RoutesPage />;
   } else if (activePage === 'vehicles') {
     content = <VehiclesPage />;
+  } else if (activePage === 'incidents') {
+    content = <IncidentsPage />;
   } else {
     content = (
       <div className="flex h-full flex-col items-center justify-center gap-3 text-slate-500">

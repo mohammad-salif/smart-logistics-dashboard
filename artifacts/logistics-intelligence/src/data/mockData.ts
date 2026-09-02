@@ -234,6 +234,7 @@ export const mockIncidents: Incident[] = [
     status: 'Reported',
     timestamp: '12 min ago',
     position: { x: 780, y: 420 },
+    description: 'A simulated road blockage is restricting access through the southern approach to Corridor Delta.',
   },
   {
     id: 'INC-3402',
@@ -243,6 +244,7 @@ export const mockIncidents: Incident[] = [
     status: 'Under Review',
     timestamp: '28 min ago',
     position: { x: 790, y: 350 },
+    description: 'Simulated accessibility disruption reported near Highland Pass. Route access is being assessed.',
   },
   {
     id: 'INC-3403',
@@ -252,6 +254,7 @@ export const mockIncidents: Incident[] = [
     status: 'Under Review',
     timestamp: '45 min ago',
     position: { x: 740, y: 290 },
+    description: 'A simulated route risk event has reduced expected accessibility in Sector 7 of Corridor Beta.',
   },
   {
     id: 'INC-3404',
@@ -261,6 +264,7 @@ export const mockIncidents: Incident[] = [
     status: 'Reported',
     timestamp: '1 hr ago',
     position: { x: 315, y: 300 },
+    description: 'Simulated delivery delay reported at the Epsilon junction. No photo is attached to this report.',
   },
   {
     id: 'INC-3405',
@@ -270,6 +274,7 @@ export const mockIncidents: Incident[] = [
     status: 'Resolved',
     timestamp: '2 hr ago',
     position: { x: 720, y: 440 },
+    description: 'The simulated blockage at Mile 38 has been marked resolved for this demo scenario.',
   },
   {
     id: 'INC-3406',
@@ -279,5 +284,6 @@ export const mockIncidents: Incident[] = [
     status: 'Resolved',
     timestamp: '3 hr ago',
     position: { x: 620, y: 270 },
+    description: 'The simulated disruption in Sector 5 has been resolved and access is restored in the demo data.',
   },
 ];

@@ -3,6 +3,12 @@ export type RiskLevel = 'low' | 'moderate' | 'high' | 'critical';
 export type VehicleStatus = 'in-transit' | 'idle' | 'loading' | 'delayed' | 'maintenance';
 export type IncidentStatus = 'Reported' | 'Under Review' | 'Resolved';
 export type Severity = 'low' | 'moderate' | 'high' | 'critical';
+export type IncidentType =
+  | 'Landslide'
+  | 'Flood'
+  | 'Road Damage'
+  | 'Bridge Damage'
+  | 'Other Accessibility Disruption';
 export type CargoCategory =
   | 'Perishables'
   | 'Hazardous Materials'
@@ -53,6 +59,8 @@ export interface Incident {
   status: IncidentStatus;
   timestamp: string;
   position: MapPoint;
+  description: string;
+  photoName?: string;
 }
 
 export type MapFilter =

@@ -1,0 +1,235 @@
+Build ONLY the Incidents page of the existing project.
+
+IMPORTANT:
+- Do not redesign or change existing sidebar/navigation.
+- Do not modify already completed Live Map, Vehicles, or Routes pages.
+- Do not change the existing color palette, typography, spacing system, or overall visual language.
+- Do not add database, authentication, backend, external APIs, GPS services, weather services, routing services, or other external services.
+- Use simulated/mock data only.
+- Do not create features not explicitly requested.
+- Reuse existing components, styling patterns, icons, status badges, table patterns, and detail-panel/modal patterns wherever possible.
+- Incidents page must feel like the same product as the existing pages.
+
+PURPOSE:
+
+Provide an interface for viewing and recording transportation accessibility incidents.
+
+SUPPORTED INCIDENT TYPES:
+
+- Landslide
+- Flood
+- Road Damage
+- Bridge Damage
+- Other Accessibility Disruption
+
+INCIDENT TABLE:
+
+Create a professional responsive table/list with:
+
+- Incident ID
+- Type
+- Location
+- Severity
+- Report Time
+- Status
+
+SEVERITY:
+
+- Low
+- Medium
+- High
+- Critical
+
+STATUS:
+
+- Reported
+- Under Review
+- Resolved
+
+Use clear text labels and semantic status indicators.
+Do not rely only on color.
+
+INCIDENT DATA:
+
+Create/use simulated incident data.
+
+Important:
+- Reuse the existing incident mock dataset if one already exists.
+- Do not create duplicate/conflicting incident datasets.
+- Keep Incident IDs consistent with other parts of the application.
+- Where route relationships already exist, preserve those relationships.
+- Do not invent real-world incidents.
+
+SUMMARY:
+
+Add a compact summary section based on the mock incident dataset where appropriate:
+
+- Total Incidents
+- Reported
+- Under Review
+- Resolved
+- High/Critical
+
+Do not hardcode inconsistent numbers.
+Calculate counts from the underlying mock data.
+
+FILTERS:
+
+Provide working filters for:
+
+- All
+- Reported
+- Under Review
+- Resolved
+- Low
+- Medium
+- High
+- Critical
+
+SEARCH:
+
+Provide search functionality for:
+- Incident ID
+- Incident type
+- Location
+
+Search and filters should work together.
+
+DETAIL PANEL:
+
+Clicking an incident should open a detail panel/modal.
+
+Show:
+
+- Incident ID
+- Type
+- Location
+- Severity
+- Report timestamp
+- Current status
+- Description
+- Photo if available
+
+IMPORTANT:
+- Do not use real incident photographs.
+- If no photo exists in the mock data, show an appropriate empty state such as "No photo available".
+- Do not generate or invent a realistic incident photograph.
+- Do not claim any mock incident is real.
+
+REPORT INCIDENT:
+
+Create a modal/form for frontend-only incident reporting.
+
+Fields:
+
+- Incident type
+- Location
+- Severity
+- Description
+- Photo upload UI
+- Location/GPS placeholder
+
+The form should:
+- validate required fields where appropriate
+- allow the user to submit a mock incident
+- update the frontend/mock state only
+- not send data to a server
+
+IMPORTANT:
+- Photo upload is UI-only/mock functionality for now.
+- Location/GPS is only a placeholder.
+- Do not access real device GPS.
+- Do not upload files to an external service.
+- Do not implement real server submission.
+
+FUTURE API STRUCTURE:
+
+Keep future API submission logic separate from the form UI.
+
+Use a service abstraction if appropriate, for example:
+
+reportIncident(data)
+
+For now this should perform only mock/frontend behavior.
+
+Do not connect it to a real backend.
+
+DATA RELATIONSHIPS:
+
+If the existing application has route relationships, an incident may reference a simulated route or location.
+
+Use existing route IDs where applicable.
+Do not create conflicting route references.
+
+DATA HONESTY:
+
+Clearly indicate where appropriate:
+
+"Simulated incident data — demo environment"
+
+Do not claim incidents come from:
+- real authorities
+- real GPS
+- real weather systems
+- real users
+- real road monitoring systems
+- real external services
+
+RESPONSIVE:
+
+Desktop:
+- Clear incident table
+- Compact summary section
+- Detail panel should be easy to inspect
+
+Tablet/mobile:
+- Adapt layout appropriately
+- Avoid unnecessary horizontal overflow
+- Maintain readable incident information
+
+VISUAL:
+
+Maintain the existing professional logistics dashboard style:
+- dark slate + teal
+- green/teal = normal/resolved
+- amber = warning/medium risk
+- red = critical/high risk
+- neutral = information
+
+Avoid:
+- excessive gradients
+- glassmorphism
+- neon effects
+- excessive animations
+- gaming aesthetics
+- giant decorative graphics
+- unnecessary rounded containers
+
+VERIFICATION:
+
+After implementation, verify:
+
+- Incidents page loads correctly
+- Navigation to Incidents works
+- Incident table renders
+- Mock incidents are visible
+- Summary counts match the mock dataset
+- Search works
+- Filters work
+- Search + filters work together
+- Clicking an incident opens the detail panel
+- Detail panel closes correctly
+- Description displays correctly
+- Missing photo state works correctly
+- Report Incident modal opens
+- Form fields work
+- Mock submission updates frontend state only
+- No real GPS is accessed
+- No external API/backend is used
+- Existing Routes page remains unchanged
+- Existing Live Map and Vehicles pages remain unchanged
+- No build errors
+- No console/runtime errors
+
+Do not implement the next module.
+Only build and verify the Incidents page.
