@@ -1,0 +1,441 @@
+import React, { useMemo, useState } from 'react';
+import {
+  AlertTriangle,
+  ArrowRight,
+  Ban,
+  CheckCircle2,
+  CircleAlert,
+  Clock3,
+  LayoutGrid,
+  MapPin,
+  Route as RouteIcon,
+  Search,
+  ShieldAlert,
+  ShieldCheck,
+  Siren,
+  X,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import type { RouteSegment, RiskLevel, RouteStatus } from '@/types';
+import { getRoutes } from '@/services/mapService';
+import { getRouteRisk } from '@/services/routeService';
+import { Badge } from '@/components/ui/Badge';
+import { riskToBadgeVariant, routeStatusToBadgeVariant } from '@/lib/badgeMappings';
+
+type RouteFilter =
+  | 'all'
+  | 'accessible'
+  | 'partially-accessible'
+  | 'blocked'
+  | RiskLevel;
+
+interface FilterDefinition {
+  key: RouteFilter;
+  label: string;
+  icon: LucideIcon;
+}
+
+const filters: FilterDefinition[] = [
+  { key: 'all', label: 'All', icon: LayoutGrid },
+  { key: 'accessible', label: 'Accessible', icon: CheckCircle2 },
+  {
+    key: 'partially-accessible',
+    label: 'Partially Accessible',
+    icon: AlertTriangle,
+  },
+  { key: 'blocked', label: 'Blocked', icon: Ban },
+  { key: 'low', label: 'Low Risk', icon: ShieldCheck },
+  { key: 'moderate', label: 'Medium Risk', icon: CircleAlert },
+  { key: 'high', label: 'High Risk', icon: ShieldAlert },
+  { key: 'critical', label: 'Critical Risk', icon: Siren },
+];
+
+const routeStatusLabels: Record<RouteStatus, string> = {
+  accessible: 'Accessible',
+  'at-risk': 'Partially Accessible',
+  blocked: 'Blocked',
+};
+
+const riskLabels: Record<RiskLevel, string> = {
+  low: 'Low',
+  moderate: 'Medium',
+  high: 'High',
+  critical: 'Critical',
+};
+
+function matchesFilter(route: RouteSegment, filter: RouteFilter) {
+  if (filter === 'all') return true;
+  if (filter === 'partially-accessible') return route.status === 'at-risk';
+  if (
+    filter === 'accessible' ||
+    filter === 'blocked'
+  ) {
+    return route.status === filter;
+  }
+  return route.riskLevel === filter;
+}
+
+function SummaryCard({
+  label,
+  value,
+  icon: Icon,
+  className,
+}: {
+  label: string;
+  value: number;
+  icon: LucideIcon;
+  className: string;
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-xl border border-slate-700/60 bg-slate-800/40 px-4 py-3">
+      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${className}`}>
+        <Icon className="h-5 w-5" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+          {label}
+        </p>
+        <p className="text-xl font-bold text-white">{value}</p>
+      </div>
+    </div>
+  );
+}
+
+function DetailRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-1 border-b border-slate-700/50 py-2.5 last:border-0">
+      <span className="text-xs font-medium uppercase tracking-wider text-slate-500">
+        {label}
+      </span>
+      <span className="text-sm text-slate-200">{children}</span>
+    </div>
+  );
+}
+
+function RouteDetailModal({
+  route,
+  onClose,
+}: {
+  route: RouteSegment;
+  onClose: () => void;
+}) {
+  const risk = getRouteRisk(route.id);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-md overflow-hidden rounded-xl border border-slate-700/60 bg-slate-900 shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-center justify-between border-b border-slate-700/60 px-5 py-4">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400">
+              <RouteIcon className="h-4 w-4" />
+            </div>
+            <h3 className="text-sm font-semibold text-white">Route Details</h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white"
+            aria-label="Close route details"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        <div className="px-5 py-2">
+          <div className="flex items-center justify-between gap-3 py-3">
+            <div>
+              <p className="text-lg font-bold text-white">{route.id}</p>
+              <p className="text-xs text-slate-500">{route.label}</p>
+            </div>
+            <Badge variant={routeStatusToBadgeVariant(route.status)}>
+              {routeStatusLabels[route.status]}
+            </Badge>
+          </div>
+
+          <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-sky-400">
+            Route
+          </p>
+          <DetailRow label="Origin">{route.origin}</DetailRow>
+          <DetailRow label="Destination">{route.destination}</DetailRow>
+          <DetailRow label="Distance">{route.distance}</DetailRow>
+          <DetailRow label="Estimated Travel Time">
+            {route.estimatedTravelTime}
+          </DetailRow>
+          <DetailRow label="Accessibility">
+            <Badge variant={routeStatusToBadgeVariant(route.status)}>
+              {routeStatusLabels[route.status]}
+            </Badge>
+          </DetailRow>
+
+          <p className="mb-1 mt-4 text-xs font-semibold uppercase tracking-wider text-amber-400">
+            Risk
+          </p>
+          <DetailRow label="Risk Level">
+            <Badge variant={riskToBadgeVariant(route.riskLevel)}>
+              {riskLabels[route.riskLevel]}
+            </Badge>
+          </DetailRow>
+          <DetailRow label="Simulated Risk Score">
+            {risk?.riskScore ?? route.riskScore} / 100
+          </DetailRow>
+          <DetailRow label="Simulated Risk Factor">
+            {risk?.riskFactor ?? 'No risk factor provided'}
+          </DetailRow>
+
+          <p className="mb-1 mt-4 text-xs font-semibold uppercase tracking-wider text-slate-400">
+            Alternative
+          </p>
+          <DetailRow label="Alternative Available">
+            {route.alternativeAvailable ? (
+              <span className="text-emerald-400">Yes</span>
+            ) : (
+              <span className="text-slate-400">No alternative available</span>
+            )}
+          </DetailRow>
+          <DetailRow label="Alternative Route ID">
+            {route.alternativeRouteId ?? 'No alternative route provided'}
+          </DetailRow>
+          <DetailRow label="Alternative Travel Time">
+            {route.alternativeTravelTime ?? 'No alternative travel time provided'}
+          </DetailRow>
+        </div>
+
+        <p className="border-t border-slate-700/50 px-5 py-3 text-xs text-slate-500">
+          Simulated route risk data — not real AI predictions
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function RouteTable({
+  routes,
+  onSelect,
+}: {
+  routes: RouteSegment[];
+  onSelect: (route: RouteSegment) => void;
+}) {
+  if (routes.length === 0) {
+    return (
+      <div className="flex items-center justify-center rounded-xl border border-slate-700/60 bg-slate-800/30 py-16">
+        <p className="text-sm text-slate-500">
+          No routes match the current filters.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="hidden overflow-x-auto rounded-xl border border-slate-700/60 lg:block">
+        <table className="w-full min-w-[1120px] text-left text-sm">
+          <thead>
+            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-xs uppercase tracking-wider text-slate-500">
+              <th className="px-4 py-3 font-medium">Route ID</th>
+              <th className="px-4 py-3 font-medium">Origin</th>
+              <th className="px-4 py-3 font-medium">Destination</th>
+              <th className="px-4 py-3 font-medium">Distance</th>
+              <th className="px-4 py-3 font-medium">Travel Time</th>
+              <th className="px-4 py-3 font-medium">Accessibility</th>
+              <th className="px-4 py-3 font-medium">Risk Level</th>
+              <th className="px-4 py-3 font-medium">Risk Score</th>
+              <th className="px-4 py-3 font-medium">Alternative</th>
+            </tr>
+          </thead>
+          <tbody>
+            {routes.map((route) => (
+              <tr
+                key={route.id}
+                tabIndex={0}
+                onClick={() => onSelect(route)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    onSelect(route);
+                  }
+                }}
+                className="cursor-pointer border-b border-slate-700/40 transition-colors last:border-0 hover:bg-slate-800/40 focus:bg-slate-800/40 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-sky-500/60"
+                aria-label={`View details for ${route.id}`}
+              >
+                <td className="px-4 py-3 font-medium text-white">{route.id}</td>
+                <td className="px-4 py-3 text-slate-400">{route.origin}</td>
+                <td className="px-4 py-3 text-slate-400">{route.destination}</td>
+                <td className="px-4 py-3 text-slate-300">{route.distance}</td>
+                <td className="px-4 py-3 text-slate-300">{route.estimatedTravelTime}</td>
+                <td className="px-4 py-3">
+                  <Badge variant={routeStatusToBadgeVariant(route.status)}>
+                    {routeStatusLabels[route.status]}
+                  </Badge>
+                </td>
+                <td className="px-4 py-3">
+                  <Badge variant={riskToBadgeVariant(route.riskLevel)}>
+                    {riskLabels[route.riskLevel]}
+                  </Badge>
+                </td>
+                <td className="px-4 py-3 font-medium text-slate-200">
+                  {route.riskScore} / 100
+                </td>
+                <td className="px-4 py-3 text-slate-400">
+                  {route.alternativeAvailable ? 'Available' : 'Not available'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="flex flex-col gap-3 lg:hidden">
+        {routes.map((route) => (
+          <button
+            key={route.id}
+            onClick={() => onSelect(route)}
+            className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-semibold text-white">{route.id}</span>
+              <Badge variant={riskToBadgeVariant(route.riskLevel)}>
+                {riskLabels[route.riskLevel]} risk
+              </Badge>
+            </div>
+            <div className="mt-2 flex items-center gap-2 text-sm text-slate-300">
+              <span className="truncate">{route.origin}</span>
+              <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-500" />
+              <span className="truncate">{route.destination}</span>
+            </div>
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400">
+              <span>{route.distance}</span>
+              <span>{route.estimatedTravelTime}</span>
+              <Badge variant={routeStatusToBadgeVariant(route.status)}>
+                {routeStatusLabels[route.status]}
+              </Badge>
+            </div>
+            <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
+              <span>Risk score {route.riskScore} / 100</span>
+              <span>{route.alternativeAvailable ? 'Alternative available' : 'No alternative'}</span>
+            </div>
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
+
+export function RoutesPage() {
+  const routes = useMemo(() => getRoutes(), []);
+  const [activeFilter, setActiveFilter] = useState<RouteFilter>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedRoute, setSelectedRoute] = useState<RouteSegment | null>(null);
+
+  const summary = useMemo(
+    () => ({
+      total: routes.length,
+      accessible: routes.filter((route) => route.status === 'accessible').length,
+      partiallyAccessible: routes.filter((route) => route.status === 'at-risk').length,
+      blocked: routes.filter((route) => route.status === 'blocked').length,
+      highCritical: routes.filter(
+        (route) => route.riskLevel === 'high' || route.riskLevel === 'critical',
+      ).length,
+    }),
+    [routes],
+  );
+
+  const filteredRoutes = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return routes.filter((route) => {
+      const matchesSearch =
+        !query ||
+        route.id.toLowerCase().includes(query) ||
+        route.origin.toLowerCase().includes(query) ||
+        route.destination.toLowerCase().includes(query);
+      return matchesSearch && matchesFilter(route, activeFilter);
+    });
+  }, [activeFilter, routes, searchQuery]);
+
+  return (
+    <div className="flex flex-col gap-4 p-4 lg:p-6">
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-500/15 text-sky-400">
+            <RouteIcon className="h-5 w-5" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-white">Routes</h1>
+            <p className="text-sm text-slate-400">
+              Route inspection — simulated accessibility and risk data
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <SummaryCard label="Total Routes" value={summary.total} icon={RouteIcon} className="bg-sky-500/15 text-sky-400" />
+        <SummaryCard label="Accessible" value={summary.accessible} icon={ShieldCheck} className="bg-emerald-500/15 text-emerald-400" />
+        <SummaryCard label="Partially Accessible" value={summary.partiallyAccessible} icon={AlertTriangle} className="bg-amber-500/15 text-amber-400" />
+        <SummaryCard label="Blocked" value={summary.blocked} icon={Ban} className="bg-red-500/15 text-red-400" />
+        <SummaryCard label="High/Critical Risk" value={summary.highCritical} icon={Siren} className="bg-orange-500/15 text-orange-400" />
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap gap-2">
+          {filters.map((filter) => {
+            const Icon = filter.icon;
+            const isActive = activeFilter === filter.key;
+            return (
+              <button
+                key={filter.key}
+                onClick={() => setActiveFilter(filter.key)}
+                aria-pressed={isActive}
+                className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+                  isActive
+                    ? 'border-sky-500/50 bg-sky-500/15 text-sky-300'
+                    : 'border-slate-700/60 bg-slate-800/50 text-slate-400 hover:border-slate-600 hover:text-slate-200'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {filter.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="relative w-full lg:w-96">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="Search route ID, origin, destination..."
+            aria-label="Search routes"
+            className="w-full rounded-lg border border-slate-700/60 bg-slate-800/50 py-2 pl-10 pr-3 text-sm text-slate-200 outline-none transition-colors placeholder:text-slate-500 focus:border-sky-500/50 focus:bg-slate-800"
+          />
+        </div>
+      </div>
+
+      <RouteTable routes={filteredRoutes} onSelect={setSelectedRoute} />
+
+      <div className="flex items-center justify-center gap-2 text-center text-xs text-slate-600">
+        <MapPin className="h-3.5 w-3.5" />
+        <span>Simulated route risk data — not real AI predictions or live road conditions</span>
+        <Clock3 className="hidden h-3.5 w-3.5 sm:block" />
+      </div>
+
+      {selectedRoute && (
+        <RouteDetailModal
+          route={selectedRoute}
+          onClose={() => setSelectedRoute(null)}
+        />
+      )}
+    </div>
+  );
+}

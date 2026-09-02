@@ -1,0 +1,209 @@
+Build ONLY the Routes page of the existing project.
+
+IMPORTANT:
+- Do not redesign or change existing sidebar/navigation.
+- Do not modify already completed Live Map or Vehicles pages.
+- Do not change the existing color palette, typography, spacing system, or overall visual language.
+- Do not add database, authentication, backend, external APIs, GPS services, Mapbox, Google Maps, routing services, or other external services.
+- Use simulated/mock data only.
+- Do not create features not explicitly requested.
+- Reuse existing components, styling patterns, icons, status badges, modal/detail-panel patterns, and mock-data structures wherever possible.
+- Routes page must feel like the same product as Live Map and Vehicles.
+
+PURPOSE:
+
+Allow users to inspect transportation routes and understand their simulated accessibility and risk.
+
+IMPORTANT:
+
+There is currently NO real AI model connected.
+
+Therefore:
+- Risk scores are simulated.
+- Risk levels are demo values.
+- Do not describe them as actual AI predictions.
+- Do not imply that the displayed risk represents real-world route conditions.
+- Structure the code so a real prediction API can be connected later.
+
+ROUTE TABLE:
+
+Create a professional responsive table/list with these columns:
+
+- Route ID
+- Origin
+- Destination
+- Distance
+- Estimated Travel Time
+- Accessibility
+- Risk Level
+- Risk Score
+- Alternative Available
+
+ACCESSIBILITY STATUS:
+
+- Accessible
+- Partially Accessible
+- Blocked
+
+RISK LEVEL:
+
+- Low
+- Medium
+- High
+- Critical
+
+Use clear text labels and semantic status indicators.
+Do not rely only on color.
+
+SUMMARY:
+
+Add a compact summary section using values calculated from the mock route dataset where appropriate:
+
+- Total Routes
+- Accessible
+- Partially Accessible
+- Blocked
+- High/Critical Risk
+
+Do not hardcode inconsistent summary numbers.
+
+FILTERS:
+
+Provide working filters for:
+
+- All
+- Accessible
+- Partially Accessible
+- Blocked
+- Low Risk
+- Medium Risk
+- High Risk
+- Critical Risk
+
+SEARCH:
+
+Provide search functionality for:
+- Route ID
+- Origin
+- Destination
+
+Filters and search should work together.
+
+ROUTE DETAIL PANEL:
+
+Clicking a route should open a detail panel/modal.
+
+Show:
+
+ROUTE:
+- Route ID
+- Origin
+- Destination
+- Distance
+- Estimated travel time
+- Accessibility
+
+RISK:
+- Risk level
+- Simulated risk score
+- Simulated risk factor
+
+ALTERNATIVE:
+- Alternative available
+- Alternative route ID
+- Alternative travel time
+
+IMPORTANT:
+- Do not invent real causes for route risk.
+- Only display a risk factor if that field exists in the mock data.
+- Do not generate realistic-sounding explanations that are not present in the dataset.
+- If no risk factor exists, display an appropriate neutral state such as "No risk factor provided".
+
+MOCK DATA:
+
+Create a reasonable set of simulated routes consistent with the existing application data.
+
+Important:
+- Reuse existing route IDs if route data already exists.
+- Do not create a second conflicting route dataset.
+- Keep route IDs consistent with Live Map, Vehicles, Deliveries, Incidents, and Alerts.
+- Prefer the existing mock-data source if one already exists.
+- If a centralized route dataset does not yet exist, create one reusable source that future pages can import.
+
+SERVICE ABSTRACTION:
+
+Create a service abstraction such as:
+
+getRouteRisk(routeId)
+
+For now:
+- It should return mock/demo risk data.
+- Keep this service logic separate from the UI components.
+- Do not connect it to any real AI/ML model or backend.
+- Structure it so it can later be replaced by a real backend/ML API without rewriting the page UI.
+
+DATA HONESTY:
+
+Clearly indicate where appropriate:
+
+"Simulated route risk data — not real AI predictions"
+
+Do not:
+- claim risk scores are real predictions
+- claim route conditions are live
+- claim accessibility status reflects real-world roads
+- connect external APIs
+
+RESPONSIVE:
+
+Desktop:
+- Spacious operational table
+- Clear summary cards
+- Detail panel should be easy to inspect
+
+Tablet/mobile:
+- Adapt the table/layout appropriately
+- Avoid unnecessary horizontal overflow
+- Preserve readability and usability
+
+VISUAL:
+
+Maintain the existing professional logistics dashboard style:
+- dark slate + teal
+- green/teal = accessible/normal
+- amber = warning/risk
+- red = critical/blocked
+- neutral = information
+
+Avoid:
+- excessive gradients
+- glassmorphism
+- neon effects
+- excessive animations
+- gaming aesthetics
+- giant decorative graphics
+- unnecessary rounded containers
+
+VERIFICATION:
+
+After implementation, verify:
+
+- Routes page loads correctly
+- Navigation to Routes works
+- Route table renders
+- Mock route data is visible
+- Summary values are consistent with the dataset
+- Search works
+- Filters work
+- Search + filters work together
+- Clicking a route opens the detail panel
+- Detail panel closes correctly
+- Risk information comes from mock data
+- getRouteRisk(routeId) exists and is separated from UI logic
+- Existing Live Map page remains unchanged
+- Existing Vehicles page remains unchanged
+- No build errors
+- No console/runtime errors
+
+Do not implement the next module.
+Only build and verify the Routes page.

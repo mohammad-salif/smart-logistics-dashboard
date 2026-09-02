@@ -5,14 +5,23 @@ import {
   Truck,
   AlertTriangle,
   Package,
+  Route as RouteIcon,
   Settings,
   Radar,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { LiveMapPage } from '@/pages/LiveMapPage';
+import { RoutesPage } from '@/pages/RoutesPage';
 import { VehiclesPage } from '@/pages/VehiclesPage';
 
-type NavKey = 'overview' | 'live-map' | 'vehicles' | 'incidents' | 'deliveries' | 'settings';
+type NavKey =
+  | 'overview'
+  | 'live-map'
+  | 'routes'
+  | 'vehicles'
+  | 'incidents'
+  | 'deliveries'
+  | 'settings';
 
 interface NavItem {
   key: NavKey;
@@ -23,6 +32,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { key: 'overview', label: 'Overview', icon: LayoutDashboard },
   { key: 'live-map', label: 'Live Map', icon: MapIcon },
+  { key: 'routes', label: 'Routes', icon: RouteIcon },
   { key: 'vehicles', label: 'Vehicles', icon: Truck },
   { key: 'incidents', label: 'Incidents', icon: AlertTriangle },
   { key: 'deliveries', label: 'Deliveries', icon: Package },
@@ -32,6 +42,7 @@ const navItems: NavItem[] = [
 const placeholderPages: Record<NavKey, string> = {
   overview: 'Overview',
   'live-map': '',
+  routes: 'Routes',
   vehicles: 'Vehicles',
   incidents: 'Incidents',
   deliveries: 'Deliveries',
@@ -44,6 +55,8 @@ function App() {
   let content: ReactNode;
   if (activePage === 'live-map') {
     content = <LiveMapPage />;
+  } else if (activePage === 'routes') {
+    content = <RoutesPage />;
   } else if (activePage === 'vehicles') {
     content = <VehiclesPage />;
   } else {

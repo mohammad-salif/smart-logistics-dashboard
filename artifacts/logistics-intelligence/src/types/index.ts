@@ -22,8 +22,13 @@ export interface RouteSegment {
   points: MapPoint[];
   status: RouteStatus;
   riskLevel: RiskLevel;
+  riskScore: number;
+  riskFactor?: string;
+  distance: string;
   estimatedTravelTime: string;
   alternativeAvailable: boolean;
+  alternativeRouteId?: string;
+  alternativeTravelTime?: string;
   origin: string;
   destination: string;
 }
