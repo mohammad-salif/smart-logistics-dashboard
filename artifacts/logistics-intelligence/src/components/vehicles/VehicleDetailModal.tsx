@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Truck, X } from 'lucide-react';
 import type { FleetVehicle } from '@/types';
 import { Badge } from '@/components/ui/Badge';
@@ -20,7 +21,7 @@ function DetailRow({
 }) {
   return (
     <div className="flex flex-col gap-1 py-2.5 border-b border-slate-700/50 last:border-0">
-      <span className="text-xs font-medium uppercase tracking-wider text-slate-500">
+      <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
         {label}
       </span>
       <span className="text-sm text-slate-200">{children}</span>
@@ -32,13 +33,27 @@ export function VehicleDetailModal({
   vehicle,
   onClose,
 }: VehicleDetailModalProps) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 backdrop-blur-sm p-4"
       onClick={onClose}
+      role="presentation"
     >
       <div
-        className="w-full max-w-md overflow-hidden rounded-xl border border-slate-700/60 bg-slate-900 shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="vehicle-detail-title"
+        className="w-full max-w-md overflow-hidden rounded-xl border border-slate-700/70 bg-slate-900 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-slate-700/60 px-5 py-4">
@@ -46,12 +61,16 @@ export function VehicleDetailModal({
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-500/15 text-sky-400">
               <Truck className="h-4 w-4" />
             </div>
-            <h3 className="text-sm font-semibold text-white">Vehicle Details</h3>
+            <div>
+              <h3 id="vehicle-detail-title" className="text-sm font-semibold text-white">Vehicle Details</h3>
+              <p className="text-[11px] text-slate-500">Fleet operational record</p>
+            </div>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-white transition-colors"
-            aria-label="Close"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+            aria-label="Close vehicle details"
           >
             <X className="h-4 w-4" />
           </button>

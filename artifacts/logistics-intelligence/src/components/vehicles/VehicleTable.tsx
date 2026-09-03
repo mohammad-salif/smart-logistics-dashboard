@@ -25,7 +25,7 @@ export function VehicleTable({ vehicles, onSelect }: VehicleTableProps) {
       <div className="hidden overflow-hidden rounded-xl border border-slate-700/60 lg:block">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-xs uppercase tracking-wider text-slate-500">
+            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
               <th className="px-4 py-3 font-medium">Vehicle ID</th>
               <th className="px-4 py-3 font-medium">Type</th>
               <th className="px-4 py-3 font-medium">Cargo</th>
@@ -41,10 +41,19 @@ export function VehicleTable({ vehicles, onSelect }: VehicleTableProps) {
             {vehicles.map((v) => (
               <tr
                 key={v.id}
+                tabIndex={0}
+                role="button"
+                aria-label={`View details for vehicle ${v.id}`}
                 onClick={() => onSelect(v)}
-                className="cursor-pointer border-b border-slate-700/40 transition-colors hover:bg-slate-800/40 last:border-0"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelect(v);
+                  }
+                }}
+                className="cursor-pointer border-b border-slate-700/40 transition-colors hover:bg-slate-800/40 focus-visible:bg-slate-800/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-sky-500/60 last:border-0"
               >
-                <td className="px-4 py-3 font-medium text-white">{v.id}</td>
+                <td className="px-4 py-3 font-mono font-semibold text-slate-100">{v.id}</td>
                 <td className="px-4 py-3 text-slate-300">{v.type}</td>
                 <td className="px-4 py-3 text-slate-300">{v.cargoCategory}</td>
                 <td className="px-4 py-3 text-slate-400">{v.origin}</td>
@@ -59,8 +68,8 @@ export function VehicleTable({ vehicles, onSelect }: VehicleTableProps) {
                     {v.routeStatus.replace('-', ' ')}
                   </Badge>
                 </td>
-                <td className="px-4 py-3 text-slate-300">{v.eta}</td>
-                <td className="px-4 py-3 text-slate-500">{v.lastUpdated}</td>
+                <td className="px-4 py-3 font-mono text-xs text-slate-300">{v.eta}</td>
+                <td className="px-4 py-3 font-mono text-xs text-slate-500">{v.lastUpdated}</td>
               </tr>
             ))}
           </tbody>
@@ -72,27 +81,31 @@ export function VehicleTable({ vehicles, onSelect }: VehicleTableProps) {
         {vehicles.map((v) => (
           <button
             key={v.id}
+            type="button"
             onClick={() => onSelect(v)}
-            className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60"
+            className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
             <div className="flex items-center justify-between gap-2">
-              <span className="font-semibold text-white">{v.id}</span>
+              <span className="font-mono font-semibold text-white">{v.id}</span>
               <Badge variant={fleetStatusToBadgeVariant(v.status)}>
                 {v.status}
               </Badge>
             </div>
             <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-400">
               <span>{v.type}</span>
+              <span>·</span>
               <span>{v.cargoCategory}</span>
             </div>
-            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
-              <span>{v.origin} → {v.destination}</span>
+            <div className="mt-2 flex flex-wrap items-center gap-x-2 text-xs text-slate-400">
+              <span>{v.origin}</span>
+              <span className="text-slate-600">→</span>
+              <span>{v.destination}</span>
             </div>
-            <div className="mt-3 flex items-center justify-between">
+            <div className="mt-3 flex items-center justify-between border-t border-slate-700/40 pt-2.5">
               <Badge variant={routeStatusToBadgeVariant(v.routeStatus)}>
                 {v.routeStatus.replace('-', ' ')}
               </Badge>
-              <span className="text-xs text-slate-400">ETA {v.eta}</span>
+              <span className="font-mono text-xs text-slate-300">ETA {v.eta}</span>
             </div>
           </button>
         ))}

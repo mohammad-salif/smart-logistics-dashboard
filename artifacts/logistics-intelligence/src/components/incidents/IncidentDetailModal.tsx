@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { AlertTriangle, ImageOff, MapPin, X } from 'lucide-react';
 import type { Incident } from '@/types';
 import { Badge } from '@/components/ui/Badge';
@@ -18,21 +19,35 @@ const severityLabels: Record<Incident['severity'], string> = {
 function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1 border-b border-slate-700/50 py-2.5 last:border-0">
-      <span className="text-xs font-medium uppercase tracking-wider text-slate-500">{label}</span>
+      <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">{label}</span>
       <span className="text-sm text-slate-200">{children}</span>
     </div>
   );
 }
 
 export function IncidentDetailModal({ incident, onClose }: IncidentDetailModalProps) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
       onClick={onClose}
+      role="presentation"
       data-testid="modal-incident-detail"
     >
       <div
-        className="max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-xl border border-slate-700/60 bg-slate-900 shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="incident-detail-title"
+        className="max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-xl border border-slate-700/70 bg-slate-900 shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-700/60 bg-slate-900 px-5 py-4">
@@ -41,8 +56,8 @@ export function IncidentDetailModal({ incident, onClose }: IncidentDetailModalPr
               <AlertTriangle className="h-4 w-4" />
             </div>
             <div>
-              <h2 className="text-sm font-semibold text-white">Incident Details</h2>
-              <p className="text-xs text-slate-500">Simulated event record</p>
+              <h2 id="incident-detail-title" className="text-sm font-semibold text-white">Incident Details</h2>
+              <p className="text-[11px] text-slate-500">Simulated event record</p>
             </div>
           </div>
           <button
@@ -50,7 +65,7 @@ export function IncidentDetailModal({ incident, onClose }: IncidentDetailModalPr
             onClick={onClose}
             aria-label="Close incident details"
             data-testid="button-close-incident-detail"
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
             <X className="h-4 w-4" />
           </button>

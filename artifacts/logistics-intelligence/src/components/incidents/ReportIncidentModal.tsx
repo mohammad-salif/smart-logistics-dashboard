@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AlertCircle, Camera, FileUp, MapPin, X } from 'lucide-react';
 import type { Incident, IncidentType, Severity } from '@/types';
 import { reportIncident } from '@/services/incidentService';
@@ -33,6 +33,16 @@ export function ReportIncidentModal({ onClose, onSubmitted }: ReportIncidentModa
   const [formError, setFormError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!type || !location.trim() || !description.trim()) {
@@ -59,12 +69,16 @@ export function ReportIncidentModal({ onClose, onSubmitted }: ReportIncidentModa
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
       onClick={onClose}
+      role="presentation"
       data-testid="modal-report-incident"
     >
       <div
-        className="max-h-[calc(100dvh-2rem)] w-full max-w-xl overflow-y-auto rounded-xl border border-slate-700/60 bg-slate-900 shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="report-incident-title"
+        className="max-h-[calc(100dvh-2rem)] w-full max-w-xl overflow-y-auto rounded-xl border border-slate-700/70 bg-slate-900 shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-slate-700/60 px-5 py-4">
@@ -73,8 +87,8 @@ export function ReportIncidentModal({ onClose, onSubmitted }: ReportIncidentModa
               <AlertCircle className="h-4 w-4" />
             </div>
             <div>
-              <h2 className="text-sm font-semibold text-white">Report Incident</h2>
-              <p className="text-xs text-slate-500">Add a simulated accessibility event</p>
+              <h2 id="report-incident-title" className="text-sm font-semibold text-white">Report Incident</h2>
+              <p className="text-[11px] text-slate-500">Log a simulated accessibility event</p>
             </div>
           </div>
           <button
@@ -82,7 +96,7 @@ export function ReportIncidentModal({ onClose, onSubmitted }: ReportIncidentModa
             onClick={onClose}
             aria-label="Close report incident form"
             data-testid="button-close-report-incident"
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
             <X className="h-4 w-4" />
           </button>

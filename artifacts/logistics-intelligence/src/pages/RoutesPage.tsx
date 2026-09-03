@@ -87,15 +87,15 @@ function SummaryCard({
   className: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-slate-700/60 bg-slate-800/40 px-4 py-3">
-      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${className}`}>
+    <div className="flex items-center gap-3 rounded-xl border border-slate-700/60 bg-slate-800/40 px-4 py-3 transition-colors hover:border-slate-600/70">
+      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-700/40 ${className}`}>
         <Icon className="h-5 w-5" />
       </div>
       <div className="min-w-0">
-        <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
           {label}
         </p>
-        <p className="text-xl font-bold text-white">{value}</p>
+        <p className="font-mono text-xl font-bold tabular-nums text-white">{value}</p>
       </div>
     </div>
   );
@@ -110,7 +110,7 @@ function DetailRow({
 }) {
   return (
     <div className="flex flex-col gap-1 border-b border-slate-700/50 py-2.5 last:border-0">
-      <span className="text-xs font-medium uppercase tracking-wider text-slate-500">
+      <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
         {label}
       </span>
       <span className="text-sm text-slate-200">{children}</span>
@@ -127,13 +127,27 @@ function RouteDetailModal({
 }) {
   const risk = getRouteRisk(route.id);
 
+  React.useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
       onClick={onClose}
+      role="presentation"
     >
       <div
-        className="w-full max-w-md overflow-hidden rounded-xl border border-slate-700/60 bg-slate-900 shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="route-detail-title"
+        className="w-full max-w-md overflow-hidden rounded-xl border border-slate-700/70 bg-slate-900 shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-slate-700/60 px-5 py-4">
@@ -141,11 +155,15 @@ function RouteDetailModal({
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400">
               <RouteIcon className="h-4 w-4" />
             </div>
-            <h3 className="text-sm font-semibold text-white">Route Details</h3>
+            <div>
+              <h3 id="route-detail-title" className="text-sm font-semibold text-white">Route Details</h3>
+              <p className="text-[11px] text-slate-500">Accessibility & risk profile</p>
+            </div>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
             aria-label="Close route details"
           >
             <X className="h-4 w-4" />
@@ -155,8 +173,8 @@ function RouteDetailModal({
         <div className="px-5 py-2">
           <div className="flex items-center justify-between gap-3 py-3">
             <div>
-              <p className="text-lg font-bold text-white">{route.id}</p>
-              <p className="text-xs text-slate-500">{route.label}</p>
+              <p className="font-mono text-lg font-bold text-white">{route.id}</p>
+              <p className="text-xs text-slate-400">{route.label}</p>
             </div>
             <Badge variant={routeStatusToBadgeVariant(route.status)}>
               {routeStatusLabels[route.status]}
@@ -241,7 +259,7 @@ function RouteTable({
       <div className="hidden overflow-x-auto rounded-xl border border-slate-700/60 lg:block">
         <table className="w-full min-w-[1120px] text-left text-sm">
           <thead>
-            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-xs uppercase tracking-wider text-slate-500">
+            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
               <th className="px-4 py-3 font-medium">Route ID</th>
               <th className="px-4 py-3 font-medium">Origin</th>
               <th className="px-4 py-3 font-medium">Destination</th>
@@ -249,7 +267,7 @@ function RouteTable({
               <th className="px-4 py-3 font-medium">Travel Time</th>
               <th className="px-4 py-3 font-medium">Accessibility</th>
               <th className="px-4 py-3 font-medium">Risk Level</th>
-              <th className="px-4 py-3 font-medium">Risk Score</th>
+              <th className="px-4 py-3 font-medium">Simulated Score</th>
               <th className="px-4 py-3 font-medium">Alternative</th>
             </tr>
           </thead>
@@ -258,6 +276,7 @@ function RouteTable({
               <tr
                 key={route.id}
                 tabIndex={0}
+                role="button"
                 onClick={() => onSelect(route)}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter' || event.key === ' ') {
@@ -265,14 +284,14 @@ function RouteTable({
                     onSelect(route);
                   }
                 }}
-                className="cursor-pointer border-b border-slate-700/40 transition-colors last:border-0 hover:bg-slate-800/40 focus:bg-slate-800/40 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-sky-500/60"
-                aria-label={`View details for ${route.id}`}
+                className="cursor-pointer border-b border-slate-700/40 transition-colors last:border-0 hover:bg-slate-800/40 focus-visible:bg-slate-800/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-sky-500/60"
+                aria-label={`View details for route ${route.id}`}
               >
-                <td className="px-4 py-3 font-medium text-white">{route.id}</td>
-                <td className="px-4 py-3 text-slate-400">{route.origin}</td>
-                <td className="px-4 py-3 text-slate-400">{route.destination}</td>
-                <td className="px-4 py-3 text-slate-300">{route.distance}</td>
-                <td className="px-4 py-3 text-slate-300">{route.estimatedTravelTime}</td>
+                <td className="px-4 py-3 font-mono font-semibold text-slate-100">{route.id}</td>
+                <td className="px-4 py-3 text-slate-300">{route.origin}</td>
+                <td className="px-4 py-3 text-slate-300">{route.destination}</td>
+                <td className="px-4 py-3 font-mono text-xs text-slate-300">{route.distance}</td>
+                <td className="px-4 py-3 font-mono text-xs text-slate-300">{route.estimatedTravelTime}</td>
                 <td className="px-4 py-3">
                   <Badge variant={routeStatusToBadgeVariant(route.status)}>
                     {routeStatusLabels[route.status]}
@@ -283,11 +302,15 @@ function RouteTable({
                     {riskLabels[route.riskLevel]}
                   </Badge>
                 </td>
-                <td className="px-4 py-3 font-medium text-slate-200">
-                  {route.riskScore} / 100
+                <td className="px-4 py-3 font-mono text-xs tabular-nums text-slate-200">
+                  {route.riskScore} <span className="text-slate-500">/ 100</span>
                 </td>
-                <td className="px-4 py-3 text-slate-400">
-                  {route.alternativeAvailable ? 'Available' : 'Not available'}
+                <td className="px-4 py-3 text-xs">
+                  {route.alternativeAvailable ? (
+                    <span className="font-medium text-emerald-400">Available</span>
+                  ) : (
+                    <span className="text-slate-500">Not available</span>
+                  )}
                 </td>
               </tr>
             ))}
@@ -299,11 +322,12 @@ function RouteTable({
         {routes.map((route) => (
           <button
             key={route.id}
+            type="button"
             onClick={() => onSelect(route)}
-            className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60"
+            className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
             <div className="flex items-center justify-between gap-2">
-              <span className="font-semibold text-white">{route.id}</span>
+              <span className="font-mono font-semibold text-white">{route.id}</span>
               <Badge variant={riskToBadgeVariant(route.riskLevel)}>
                 {riskLabels[route.riskLevel]} risk
               </Badge>
@@ -314,14 +338,14 @@ function RouteTable({
               <span className="truncate">{route.destination}</span>
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400">
-              <span>{route.distance}</span>
-              <span>{route.estimatedTravelTime}</span>
+              <span className="font-mono">{route.distance}</span>
+              <span className="font-mono">{route.estimatedTravelTime}</span>
               <Badge variant={routeStatusToBadgeVariant(route.status)}>
                 {routeStatusLabels[route.status]}
               </Badge>
             </div>
-            <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
-              <span>Risk score {route.riskScore} / 100</span>
+            <div className="mt-3 flex items-center justify-between border-t border-slate-700/40 pt-2.5 text-xs text-slate-500">
+              <span>Risk score <strong className="font-mono text-slate-300">{route.riskScore}</strong>/100</span>
               <span>{route.alternativeAvailable ? 'Alternative available' : 'No alternative'}</span>
             </div>
           </button>
@@ -394,11 +418,12 @@ export function RoutesPage() {
             return (
               <button
                 key={filter.key}
+                type="button"
                 onClick={() => setActiveFilter(filter.key)}
                 aria-pressed={isActive}
-                className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+                className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${
                   isActive
-                    ? 'border-sky-500/50 bg-sky-500/15 text-sky-300'
+                    ? 'border-sky-500/50 bg-sky-500/15 text-sky-200'
                     : 'border-slate-700/60 bg-slate-800/50 text-slate-400 hover:border-slate-600 hover:text-slate-200'
                 }`}
               >
@@ -417,9 +442,18 @@ export function RoutesPage() {
             onChange={(event) => setSearchQuery(event.target.value)}
             placeholder="Search route ID, origin, destination..."
             aria-label="Search routes"
-            className="w-full rounded-lg border border-slate-700/60 bg-slate-800/50 py-2 pl-10 pr-3 text-sm text-slate-200 outline-none transition-colors placeholder:text-slate-500 focus:border-sky-500/50 focus:bg-slate-800"
+            className="w-full rounded-lg border border-slate-700/60 bg-slate-800/50 py-2.5 pl-10 pr-3 text-sm text-slate-200 outline-none transition-colors placeholder:text-slate-500 focus:border-sky-500/50 focus:bg-slate-800"
           />
         </div>
+      </div>
+
+      <div className="flex items-center justify-between gap-3 border-b border-slate-800/80 pb-2">
+        <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+          Showing <span className="font-semibold text-slate-300">{filteredRoutes.length}</span> of {routes.length} routes
+        </p>
+        <span className="hidden items-center gap-1.5 text-xs text-slate-500 sm:flex">
+          Simulated corridor network
+        </span>
       </div>
 
       <RouteTable routes={filteredRoutes} onSelect={setSelectedRoute} />

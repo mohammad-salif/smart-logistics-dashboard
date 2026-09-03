@@ -1,5 +1,5 @@
+import { useEffect, type ReactNode } from 'react';
 import { AlertTriangle, Clock3, MapPin, Route as RouteIcon, Truck, X } from 'lucide-react';
-import type { ReactNode } from 'react';
 import type { Alert } from '@/types';
 import { alertSeverityToBadgeVariant, alertStatusToBadgeVariant } from '@/lib/badgeMappings';
 import { Badge } from '@/components/ui/Badge';
@@ -13,7 +13,7 @@ interface AlertDetailModalProps {
 function DetailRow({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-1 border-b border-slate-700/50 py-2.5 last:border-0">
-      <span className="text-[11px] font-medium uppercase tracking-wider text-slate-500">{label}</span>
+      <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">{label}</span>
       <span className="text-sm text-slate-200">{children}</span>
     </div>
   );
@@ -21,6 +21,16 @@ function DetailRow({ label, children }: { label: string; children: ReactNode }) 
 
 export function AlertDetailModal({ alert, onClose }: AlertDetailModalProps) {
   const delivery = alert.deliveryId ? getDeliveryById(alert.deliveryId) : undefined;
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   return (
     <div
@@ -50,7 +60,7 @@ export function AlertDetailModal({ alert, onClose }: AlertDetailModalProps) {
             onClick={onClose}
             aria-label="Close alert details"
             data-testid="button-close-alert-details"
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
             <X className="h-4 w-4" />
           </button>

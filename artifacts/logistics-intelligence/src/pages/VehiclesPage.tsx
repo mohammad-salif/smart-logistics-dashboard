@@ -89,6 +89,15 @@ export function VehiclesPage() {
         onSearchChange={setSearchQuery}
       />
 
+      <div className="flex items-center justify-between gap-3 border-b border-slate-800/80 pb-2">
+        <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+          Showing <span className="font-semibold text-slate-300">{filteredVehicles.length}</span> of {allVehicles.length} vehicles
+        </p>
+        <span className="hidden items-center gap-1.5 text-xs text-slate-500 sm:flex">
+          Simulated fleet registry
+        </span>
+      </div>
+
       {/* Vehicle list */}
       <VehicleTable
         vehicles={filteredVehicles}
@@ -96,9 +105,10 @@ export function VehiclesPage() {
       />
 
       {/* Simulated data notice */}
-      <p className="text-center text-xs text-slate-600">
-        Simulated fleet data — not live vehicle tracking
-      </p>
+      <div className="flex items-center justify-center gap-2 pb-2 text-center text-xs text-slate-600">
+        <Truck className="h-3.5 w-3.5" />
+        <span>Simulated fleet data — demo environment. Not live vehicle GPS tracking.</span>
+      </div>
 
       {/* Detail modal */}
       {selectedVehicle && (

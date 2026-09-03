@@ -127,32 +127,42 @@ export function MapCanvas({
             return (
               <g
                 key={route.id}
+                tabIndex={0}
+                role="button"
+                aria-label={`Route ${route.id}: ${route.label}, status ${route.status}, risk ${route.riskLevel}`}
                 onClick={() => onSelect({ type: 'route', id: route.id })}
-                className="cursor-pointer"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelect({ type: 'route', id: route.id });
+                  }
+                }}
+                className="cursor-pointer focus:outline-none group"
               >
                 {/* Hit area */}
                 <path
                   d={pointsToPath(route.points)}
                   fill="none"
                   stroke="transparent"
-                  strokeWidth="20"
+                  strokeWidth="22"
                 />
                 {/* Visible route line */}
                 <path
                   d={pointsToPath(route.points)}
                   fill="none"
                   stroke={color}
-                  strokeWidth={isSelected ? 5 : 3.5}
+                  strokeWidth={isSelected ? 5.5 : 3.5}
                   strokeDasharray={
                     isBlocked
-                      ? '2 6'
+                      ? '3 6'
                       : isAtRisk
                         ? '10 6'
                         : undefined
                   }
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  opacity={isSelected ? 1 : 0.8}
+                  opacity={isSelected ? 1 : 0.85}
+                  className="transition-all duration-150 group-hover:opacity-100 group-focus-visible:stroke-white"
                 />
                 {/* Blocked indicator */}
                 {isBlocked && (
@@ -160,9 +170,9 @@ export function MapCanvas({
                     transform={`translate(${route.points[Math.floor(route.points.length / 2)].x} ${route.points[Math.floor(route.points.length / 2)].y})`}
                   >
                     <circle
-                      r="10"
+                      r="11"
                       fill="#ef4444"
-                      fillOpacity="0.2"
+                      fillOpacity="0.25"
                       stroke="#ef4444"
                       strokeWidth="1.5"
                     />
@@ -172,7 +182,7 @@ export function MapCanvas({
                       x2="5"
                       y2="5"
                       stroke="#ef4444"
-                      strokeWidth="2"
+                      strokeWidth="2.2"
                       strokeLinecap="round"
                     />
                     <line
@@ -181,7 +191,7 @@ export function MapCanvas({
                       x2="-5"
                       y2="5"
                       stroke="#ef4444"
-                      strokeWidth="2"
+                      strokeWidth="2.2"
                       strokeLinecap="round"
                     />
                   </g>
@@ -199,18 +209,27 @@ export function MapCanvas({
             return (
               <g
                 key={inc.id}
+                tabIndex={0}
+                role="button"
+                aria-label={`Incident ${inc.id}: ${inc.type} at ${inc.location}, severity ${inc.severity}`}
                 onClick={() => onSelect({ type: 'incident', id: inc.id })}
-                className="cursor-pointer"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelect({ type: 'incident', id: inc.id });
+                  }
+                }}
+                className="cursor-pointer focus:outline-none group"
               >
                 <circle
                   cx={inc.position.x}
                   cy={inc.position.y}
-                  r={isSelected ? 18 : 14}
+                  r={isSelected ? 20 : 15}
                   fill="#ef4444"
-                  fillOpacity="0.15"
-                  stroke="#ef4444"
-                  strokeWidth="1.5"
-                  className="transition-all"
+                  fillOpacity={isSelected ? 0.3 : 0.18}
+                  stroke={isSelected ? '#fca5a5' : '#ef4444'}
+                  strokeWidth={isSelected ? 2.5 : 1.5}
+                  className="transition-all duration-150 group-hover:fill-opacity-30 group-focus-visible:stroke-white"
                 />
                 <g
                   transform={`translate(${inc.position.x - 7} ${inc.position.y - 7})`}
@@ -238,18 +257,27 @@ export function MapCanvas({
             return (
               <g
                 key={v.id}
+                tabIndex={0}
+                role="button"
+                aria-label={`Vehicle ${v.id}: ${v.cargoCategory}, status ${v.status}, route ${v.routeStatus}`}
                 onClick={() => onSelect({ type: 'vehicle', id: v.id })}
-                className="cursor-pointer"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelect({ type: 'vehicle', id: v.id });
+                  }
+                }}
+                className="cursor-pointer focus:outline-none group"
               >
                 <circle
                   cx={v.position.x}
                   cy={v.position.y}
-                  r={isSelected ? 16 : 12}
+                  r={isSelected ? 18 : 13}
                   fill={color}
-                  fillOpacity="0.15"
-                  stroke={color}
-                  strokeWidth="2"
-                  className="transition-all"
+                  fillOpacity={isSelected ? 0.3 : 0.18}
+                  stroke={isSelected ? '#ffffff' : color}
+                  strokeWidth={isSelected ? 2.5 : 2}
+                  className="transition-all duration-150 group-hover:fill-opacity-30 group-focus-visible:stroke-white"
                 />
                 <g
                   transform={`translate(${v.position.x - 8} ${v.position.y - 8})`}

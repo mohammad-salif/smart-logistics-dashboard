@@ -63,7 +63,7 @@ const placeholderPages: Record<NavKey, string> = {
 };
 
 function App() {
-  const [activePage, setActivePage] = useState<NavKey>('live-map');
+  const [activePage, setActivePage] = useState<NavKey>('overview');
 
   let content: ReactNode;
   if (activePage === 'live-map') {
@@ -95,32 +95,49 @@ function App() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-950 text-slate-100">
+      {/* Accessible skip link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-sky-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-slate-950 focus:shadow-lg focus:outline-none"
+      >
+        Skip to main content
+      </a>
+
       {/* Sidebar */}
-      <aside className="flex w-16 flex-col border-r border-slate-800/80 bg-slate-900 lg:w-60">
+      <aside
+        aria-label="Operations Navigation"
+        className="flex w-16 flex-col border-r border-slate-800/80 bg-slate-900 lg:w-60"
+      >
         <div className="flex items-center gap-2.5 border-b border-slate-800/80 px-4 py-4">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-500/15 text-sky-400">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-sky-500/20 bg-sky-500/15 text-sky-400 shadow-sm">
             <Radar className="h-5 w-5" />
           </div>
           <div className="hidden lg:block">
             <h1 className="text-sm font-bold leading-tight text-white">
               Logistics Intelligence
             </h1>
-            <p className="text-[11px] text-slate-500">Operations Platform</p>
+            <p className="text-[11px] font-medium tracking-wide text-slate-400">
+              Operations Platform
+            </p>
           </div>
         </div>
 
-        <nav className="flex flex-1 flex-col gap-1 p-2">
+        <nav aria-label="Main" className="flex flex-1 flex-col gap-1 p-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activePage === item.key;
             return (
               <button
                 key={item.key}
+                type="button"
                 onClick={() => setActivePage(item.key)}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+                aria-current={isActive ? 'page' : undefined}
+                title={item.label}
+                aria-label={item.label}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${
                   isActive
-                    ? 'bg-sky-500/15 text-sky-300'
-                    : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                    ? 'border border-sky-500/30 bg-sky-500/15 text-sky-200 shadow-sm'
+                    : 'border border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
                 }`}
               >
                 <Icon className="h-5 w-5 shrink-0" />
@@ -130,10 +147,10 @@ function App() {
           })}
         </nav>
 
-        <div className="hidden border-t border-slate-800/80 p-4 lg:block">
-          <div className="flex items-center gap-2 rounded-lg bg-amber-500/10 border border-amber-500/20 px-3 py-2">
+        <div className="border-t border-slate-800/80 p-2 lg:p-4">
+          <div className="flex items-center justify-center gap-2 rounded-lg border border-amber-500/20 bg-amber-500/10 px-2 py-2 lg:justify-start lg:px-3">
             <AlertTriangle className="h-4 w-4 shrink-0 text-amber-400" />
-            <span className="text-[11px] text-amber-300/80">
+            <span className="hidden text-[11px] font-medium text-amber-300/90 lg:inline">
               Simulated data — demo environment
             </span>
           </div>
@@ -141,7 +158,9 @@ function App() {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto">{content}</main>
+      <main id="main-content" className="flex-1 overflow-y-auto focus:outline-none" tabIndex={-1}>
+        {content}
+      </main>
     </div>
   );
 }

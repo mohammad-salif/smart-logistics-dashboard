@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { ArrowRight, Clock3, Package, Route as RouteIcon, Truck, X } from 'lucide-react';
 import type { Delivery, FleetVehicle, RiskLevel, RouteSegment } from '@/types';
 import { Badge } from '@/components/ui/Badge';
@@ -14,7 +15,7 @@ const riskLabels: Record<RiskLevel, string> = {
 function DetailRow({ label, children, testId }: { label: string; children: React.ReactNode; testId: string }) {
   return (
     <div className="flex items-start justify-between gap-4 border-b border-slate-700/50 py-2.5 last:border-0">
-      <span className="text-xs uppercase tracking-[0.1em] text-slate-500">{label}</span>
+      <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">{label}</span>
       <span className="text-right text-sm text-slate-200" data-testid={testId}>{children}</span>
     </div>
   );
@@ -28,6 +29,16 @@ interface DeliveryDetailModalProps {
 }
 
 export function DeliveryDetailModal({ delivery, vehicle, route, onClose }: DeliveryDetailModalProps) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
@@ -48,7 +59,7 @@ export function DeliveryDetailModal({ delivery, vehicle, route, onClose }: Deliv
             </div>
             <div>
               <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-sky-400">Delivery details</p>
-              <h2 id="delivery-detail-title" className="mt-0.5 text-lg font-bold text-white" data-testid="text-selected-delivery-id">
+              <h2 id="delivery-detail-title" className="mt-0.5 font-mono text-lg font-bold text-white" data-testid="text-selected-delivery-id">
                 {delivery.id}
               </h2>
             </div>
@@ -58,7 +69,7 @@ export function DeliveryDetailModal({ delivery, vehicle, route, onClose }: Deliv
             onClick={onClose}
             aria-label="Close delivery details"
             data-testid="button-close-delivery-details"
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
             <X className="h-4 w-4" />
           </button>

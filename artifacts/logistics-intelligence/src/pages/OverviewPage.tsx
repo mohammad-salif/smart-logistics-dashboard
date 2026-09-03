@@ -94,38 +94,38 @@ function KpiCard({
 }) {
   const toneStyles = {
     sky: {
-      icon: 'bg-sky-400/10 text-sky-300',
+      icon: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
       value: 'text-sky-100',
       rule: 'bg-sky-400',
     },
     emerald: {
-      icon: 'bg-emerald-400/10 text-emerald-300',
+      icon: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
       value: 'text-emerald-100',
       rule: 'bg-emerald-400',
     },
     amber: {
-      icon: 'bg-amber-400/10 text-amber-300',
+      icon: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
       value: 'text-amber-100',
       rule: 'bg-amber-400',
     },
     red: {
-      icon: 'bg-red-400/10 text-red-300',
+      icon: 'bg-red-500/15 text-red-300 border-red-500/30',
       value: 'text-red-100',
       rule: 'bg-red-400',
     },
   }[tone];
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-slate-800/90 bg-slate-900/80 p-4 shadow-[0_12px_28px_rgba(2,8,23,0.14)]">
-      <div className={`absolute inset-x-0 top-0 h-px ${toneStyles.rule} opacity-70`} />
+    <div className="relative overflow-hidden rounded-xl border border-slate-800/90 bg-slate-900/85 p-4 shadow-[0_4px_20px_rgba(2,8,23,0.25)] transition-colors hover:border-slate-700/90">
+      <div className={`absolute inset-x-0 top-0 h-[2px] ${toneStyles.rule} opacity-80`} />
       <div className="flex items-start justify-between gap-3">
-        <p className="text-xs font-medium leading-5 text-slate-400">{label}</p>
-        <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${toneStyles.icon}`}>
+        <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">{label}</p>
+        <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${toneStyles.icon}`}>
           <Icon className="h-4 w-4" />
         </div>
       </div>
-      <div className={`mt-3 text-3xl font-semibold tracking-tight ${toneStyles.value}`}>{value}</div>
-      <p className="mt-1 text-[11px] text-slate-500">{detail}</p>
+      <div className={`mt-3 font-mono text-3xl font-bold tracking-tight tabular-nums ${toneStyles.value}`}>{value}</div>
+      <p className="mt-1.5 text-[11px] font-medium text-slate-400">{detail}</p>
     </div>
   );
 }
@@ -260,25 +260,30 @@ export function OverviewPage() {
             <SectionHeader icon={BellRing} eyebrow="Needs attention" title="Priority alerts" count={`${priorityAlerts.length} unresolved`} />
             <div className="divide-y divide-slate-800/70">
               {priorityAlerts.map((alert) => (
-                <div key={alert.id} className="px-4 py-3.5 transition-colors hover:bg-slate-800/25">
+                <div
+                  key={alert.id}
+                  tabIndex={0}
+                  className="px-4 py-3.5 transition-colors hover:bg-slate-800/30 focus-visible:bg-slate-800/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-sky-400/60"
+                  aria-label={`Alert ${alert.id}: ${alert.type} at ${alert.location}, severity ${alert.severity}`}
+                >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex min-w-0 items-start gap-2">
                       <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
                       <div className="min-w-0">
                         <p className="truncate text-xs font-semibold text-slate-100">{alert.type}</p>
-                        <p className="mt-1 truncate text-[11px] text-slate-500">{alert.location}</p>
+                        <p className="mt-1 truncate text-[11px] text-slate-400">{alert.location}</p>
                       </div>
                     </div>
                     <Badge variant={alertSeverityToBadgeVariant(alert.severity)}>{alert.severity}</Badge>
                   </div>
                   <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 pl-6">
                     <div className="min-w-0">
-                      <p className="truncate text-[10px] uppercase tracking-wider text-slate-600">Related entity</p>
-                      <p className="mt-0.5 truncate font-mono text-[11px] text-slate-400">{relatedEntity(alert)}</p>
+                      <p className="truncate text-[10px] font-semibold uppercase tracking-wider text-slate-500">Related entity</p>
+                      <p className="mt-0.5 truncate font-mono text-[11px] text-slate-300">{relatedEntity(alert)}</p>
                     </div>
                     <div className="text-right">
                       <Badge variant={alertStatusToBadgeVariant(alert.status)}>{alert.status}</Badge>
-                      <p className="mt-1 text-[10px] text-slate-600">{alert.timestamp}</p>
+                      <p className="mt-1 text-[10px] text-slate-500">{alert.timestamp}</p>
                     </div>
                   </div>
                 </div>
@@ -291,7 +296,7 @@ export function OverviewPage() {
           <div className="min-w-0 overflow-hidden rounded-xl border border-slate-800/90 bg-slate-900/70 shadow-[0_14px_34px_rgba(2,8,23,0.16)]">
             <SectionHeader icon={PackageCheck} eyebrow="In motion" title="Priority deliveries" count={`${priorityDeliveries.length} active`} />
             <div className="p-3 md:p-4">
-              <div className="hidden grid-cols-[0.72fr_1fr_1.1fr_1.1fr_0.9fr_0.7fr_0.7fr] gap-3 border-b border-slate-800/80 px-2 pb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-600 md:grid">
+              <div className="hidden grid-cols-[0.72fr_1fr_1.1fr_1.1fr_0.9fr_0.7fr_0.7fr] gap-3 border-b border-slate-800/80 px-2 pb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 md:grid">
                 <span>Delivery ID</span>
                 <span>Commodity</span>
                 <span>Origin</span>
@@ -304,33 +309,38 @@ export function OverviewPage() {
                 {priorityDeliveries.map((delivery) => {
                   const risk = getRouteRisk(delivery.routeId);
                   return (
-                    <div key={delivery.id} className="grid grid-cols-2 gap-x-4 gap-y-3 px-2 py-3.5 md:grid-cols-[0.72fr_1fr_1.1fr_1.1fr_0.9fr_0.7fr_0.7fr] md:items-center md:gap-3">
+                    <div
+                      key={delivery.id}
+                      tabIndex={0}
+                      className="grid grid-cols-2 gap-x-4 gap-y-3 px-2 py-3.5 transition-colors hover:bg-slate-800/30 focus-visible:bg-slate-800/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-sky-400/60 rounded-md md:grid-cols-[0.72fr_1fr_1.1fr_1.1fr_0.9fr_0.7fr_0.7fr] md:items-center md:gap-3"
+                      aria-label={`Delivery ${delivery.id}: ${delivery.commodity}, status ${delivery.status}`}
+                    >
                       <div>
-                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-600 md:hidden">Delivery ID</span>
-                        <span className="font-mono text-xs font-medium text-sky-300">{delivery.id}</span>
+                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-500 md:hidden">Delivery ID</span>
+                        <span className="font-mono text-xs font-semibold text-sky-300">{delivery.id}</span>
                       </div>
                       <div className="min-w-0">
-                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-600 md:hidden">Commodity</span>
-                        <span className="block truncate text-xs text-slate-300">{delivery.commodity}</span>
+                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-500 md:hidden">Commodity</span>
+                        <span className="block truncate text-xs text-slate-200">{delivery.commodity}</span>
                       </div>
                       <div className="min-w-0">
-                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-600 md:hidden">Origin</span>
+                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-500 md:hidden">Origin</span>
                         <span className="block truncate text-xs text-slate-400">{delivery.origin}</span>
                       </div>
                       <div className="min-w-0">
-                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-600 md:hidden">Destination</span>
+                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-500 md:hidden">Destination</span>
                         <span className="block truncate text-xs text-slate-400">{delivery.destination}</span>
                       </div>
                       <div>
-                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-600 md:hidden">Status</span>
+                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-500 md:hidden">Status</span>
                         <Badge variant={deliveryStatusToBadgeVariant(delivery.status)}>{delivery.status}</Badge>
                       </div>
                       <div>
-                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-600 md:hidden">ETA</span>
-                        <span className="text-xs text-slate-300">{delivery.eta}</span>
+                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-500 md:hidden">ETA</span>
+                        <span className="font-mono text-xs text-slate-300">{delivery.eta}</span>
                       </div>
                       <div>
-                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-600 md:hidden">Risk</span>
+                        <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-500 md:hidden">Risk</span>
                         {risk ? (
                           <Badge variant={riskToBadgeVariant(risk.riskLevel)}>{risk.riskLevel}</Badge>
                         ) : (
@@ -348,19 +358,24 @@ export function OverviewPage() {
             <SectionHeader icon={History} eyebrow="Signal history" title="Recent incidents" count={`${incidents.length} reports`} />
             <div className="divide-y divide-slate-800/70">
               {incidents.map((incident) => (
-                <div key={incident.id} className="px-4 py-3.5">
+                <div
+                  key={incident.id}
+                  tabIndex={0}
+                  className="px-4 py-3.5 transition-colors hover:bg-slate-800/30 focus-visible:bg-slate-800/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-sky-400/60"
+                  aria-label={`Incident ${incident.id}: ${incident.type} at ${incident.location}, severity ${incident.severity}`}
+                >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-[10px] text-slate-600">{incident.id}</span>
+                        <span className="font-mono text-[10px] text-slate-500">{incident.id}</span>
                         <span className="truncate text-xs font-semibold text-slate-200">{incident.type}</span>
                       </div>
-                      <p className="mt-1.5 truncate text-[11px] text-slate-500">{incident.location}</p>
+                      <p className="mt-1.5 truncate text-[11px] text-slate-400">{incident.location}</p>
                     </div>
                     <Badge variant={severityToBadgeVariant(incident.severity)}>{incident.severity}</Badge>
                   </div>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pl-0.5">
-                    <span className="text-[11px] text-slate-500">Reported {incident.timestamp}</span>
+                    <span className="text-[11px] text-slate-400">Reported {incident.timestamp}</span>
                     <Badge variant={incidentStatusToBadgeVariant(incident.status)}>{incident.status}</Badge>
                   </div>
                 </div>

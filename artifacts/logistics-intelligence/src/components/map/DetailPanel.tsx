@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Truck, AlertTriangle, Route as RouteIcon, X } from 'lucide-react';
 import type { Vehicle, Incident, RouteSegment } from '@/types';
 import { Badge } from '@/components/ui/Badge';
@@ -39,10 +40,24 @@ export function DetailPanel({
   route,
   onClose,
 }: DetailPanelProps) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   if (!vehicle && !incident && !route) return null;
 
   return (
-    <div className="absolute right-4 top-4 bottom-4 w-80 max-w-[calc(100vw-2rem)] overflow-y-auto rounded-xl border border-slate-700/60 bg-slate-900/95 backdrop-blur-md shadow-2xl z-20">
+    <div
+      role="region"
+      aria-label="Details panel"
+      className="absolute right-4 top-4 bottom-4 w-80 max-w-[calc(100vw-2rem)] overflow-y-auto rounded-xl border border-slate-700/60 bg-slate-900/95 backdrop-blur-md shadow-2xl z-20"
+    >
       <div className="flex items-center justify-between border-b border-slate-700/60 px-4 py-3">
         <div className="flex items-center gap-2.5">
           {vehicle && (

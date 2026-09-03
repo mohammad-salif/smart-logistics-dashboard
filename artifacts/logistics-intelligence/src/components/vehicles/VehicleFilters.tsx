@@ -32,10 +32,12 @@ export function VehicleFilters({
           return (
             <button
               key={f.key}
+              type="button"
               onClick={() => onFilterChange(f.key)}
-              className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+              aria-pressed={isActive}
+              className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${
                 isActive
-                  ? 'border-sky-500/50 bg-sky-500/15 text-sky-300'
+                  ? 'border-sky-500/50 bg-sky-500/15 text-sky-200'
                   : 'border-slate-700/60 bg-slate-800/50 text-slate-400 hover:border-slate-600 hover:text-slate-200'
               }`}
             >
@@ -46,14 +48,15 @@ export function VehicleFilters({
         })}
       </div>
 
-      <div className="relative lg:w-72">
+      <div className="relative lg:w-80">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
         <input
-          type="text"
+          type="search"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search ID, origin, destination, cargo..."
-          className="w-full rounded-lg border border-slate-700/60 bg-slate-800/50 py-2 pl-10 pr-3 text-sm text-slate-200 placeholder-slate-500 outline-none transition-colors focus:border-sky-500/50 focus:bg-slate-800"
+          aria-label="Search fleet vehicles"
+          className="w-full rounded-lg border border-slate-700/60 bg-slate-800/50 py-2.5 pl-10 pr-3 text-sm text-slate-200 placeholder-slate-500 outline-none transition-colors focus:border-sky-500/50 focus:bg-slate-800"
         />
       </div>
     </div>

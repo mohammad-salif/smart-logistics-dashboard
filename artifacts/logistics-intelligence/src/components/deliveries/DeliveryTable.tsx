@@ -31,6 +31,7 @@ function DeliveryRow({
   return (
     <tr
       tabIndex={0}
+      role="button"
       onClick={() => onSelect(delivery)}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -39,10 +40,10 @@ function DeliveryRow({
         }
       }}
       data-testid={`row-delivery-${delivery.id}`}
-      className="cursor-pointer border-b border-slate-700/40 transition-colors last:border-0 hover:bg-slate-800/40 focus:bg-slate-800/40 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-sky-500/60"
-      aria-label={`View details for ${delivery.id}`}
+      className="cursor-pointer border-b border-slate-700/40 transition-colors last:border-0 hover:bg-slate-800/40 focus-visible:bg-slate-800/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-sky-500/60"
+      aria-label={`View details for delivery ${delivery.id}`}
     >
-      <td className="px-4 py-3.5 font-semibold text-white">{delivery.id}</td>
+      <td className="px-4 py-3.5 font-mono text-xs font-semibold text-white">{delivery.id}</td>
       <td className="px-4 py-3.5 text-slate-300">{delivery.commodity}</td>
       <td className="px-4 py-3.5 text-slate-400">{delivery.origin}</td>
       <td className="px-4 py-3.5 text-slate-400">{delivery.destination}</td>
@@ -54,7 +55,7 @@ function DeliveryRow({
       <td className="px-4 py-3.5">
         {risk ? (
           <Badge variant={riskToBadgeVariant(risk.level)}>
-            {riskLabels[risk.level]} <span className="text-[10px] opacity-70">({risk.score})</span>
+            {riskLabels[risk.level]} <span className="font-mono text-[10px] opacity-75">({risk.score})</span>
           </Badge>
         ) : (
           <span className="text-xs text-slate-600">Unavailable</span>
@@ -80,7 +81,7 @@ export function DeliveryTable({ deliveries, routeRiskById, onSelect }: DeliveryT
       <div className="hidden overflow-x-auto rounded-xl border border-slate-700/60 lg:block">
         <table className="w-full min-w-[1180px] text-left text-sm">
           <thead>
-            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-[11px] uppercase tracking-[0.12em] text-slate-500">
+            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
               <th className="px-4 py-3 font-medium">Delivery ID</th>
               <th className="px-4 py-3 font-medium">Commodity</th>
               <th className="px-4 py-3 font-medium">Origin</th>
@@ -108,7 +109,7 @@ export function DeliveryTable({ deliveries, routeRiskById, onSelect }: DeliveryT
               type="button"
               onClick={() => onSelect(delivery)}
               data-testid={`card-delivery-${delivery.id}`}
-              className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60"
+              className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
             >
               <div className="flex items-start justify-between gap-3">
                 <div>

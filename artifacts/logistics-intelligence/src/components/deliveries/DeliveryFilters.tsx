@@ -38,9 +38,9 @@ export function DeliveryFilters({
               onClick={() => onFilterChange(filter.key)}
               aria-pressed={isActive}
               data-testid={`button-filter-deliveries-${filter.key.toLowerCase().replaceAll(' ', '-')}`}
-              className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+              className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${
                 isActive
-                  ? 'border-sky-500/50 bg-sky-500/15 text-sky-300'
+                  ? 'border-sky-500/50 bg-sky-500/15 text-sky-200'
                   : 'border-slate-700/60 bg-slate-800/50 text-slate-400 hover:border-slate-600 hover:text-slate-200'
               }`}
             >
@@ -60,7 +60,7 @@ export function DeliveryFilters({
           placeholder="Search delivery, commodity, location, vehicle..."
           aria-label="Search deliveries"
           data-testid="input-search-deliveries"
-          className="w-full rounded-lg border border-slate-700/60 bg-slate-800/50 py-2 pl-10 pr-3 text-sm text-slate-200 outline-none transition-colors placeholder:text-slate-500 focus:border-sky-500/50 focus:bg-slate-800"
+          className="w-full rounded-lg border border-slate-700/60 bg-slate-800/50 py-2.5 pl-10 pr-3 text-sm text-slate-200 outline-none transition-colors placeholder:text-slate-500 focus:border-sky-500/50 focus:bg-slate-800"
         />
       </div>
     </div>

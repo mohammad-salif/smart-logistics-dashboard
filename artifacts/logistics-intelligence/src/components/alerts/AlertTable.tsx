@@ -12,6 +12,7 @@ function AlertRow({ alert, onSelect }: { alert: Alert; onSelect: (alert: Alert) 
   return (
     <tr
       tabIndex={0}
+      role="button"
       onClick={() => onSelect(alert)}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -19,8 +20,8 @@ function AlertRow({ alert, onSelect }: { alert: Alert; onSelect: (alert: Alert) 
           onSelect(alert);
         }
       }}
-      className="cursor-pointer border-b border-slate-700/40 transition-colors last:border-0 hover:bg-slate-800/45 focus:bg-slate-800/45 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-sky-500/60"
-      aria-label={`View details for ${alert.id}`}
+      className="cursor-pointer border-b border-slate-700/40 transition-colors last:border-0 hover:bg-slate-800/45 focus-visible:bg-slate-800/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-sky-500/60"
+      aria-label={`View details for alert ${alert.id}`}
       data-testid={`row-alert-${alert.id}`}
     >
       <td className="px-4 py-3.5 font-mono text-xs font-semibold text-white">{alert.id}</td>
@@ -32,11 +33,11 @@ function AlertRow({ alert, onSelect }: { alert: Alert; onSelect: (alert: Alert) 
       </td>
       <td className="px-4 py-3.5 font-mono text-xs text-slate-300">{alert.routeId ?? 'No route linked'}</td>
       <td className="px-4 py-3.5 font-mono text-xs text-slate-400">{alert.vehicleId ?? 'No vehicle linked'}</td>
-      <td className="px-4 py-3.5 text-xs text-slate-500">{alert.deliveryId ?? 'No delivery linked'}</td>
+      <td className="px-4 py-3.5 font-mono text-xs text-slate-400">{alert.deliveryId ?? 'No delivery linked'}</td>
       <td className="max-w-[14rem] px-4 py-3.5 text-slate-400">
         <span className="flex items-start gap-1.5"><MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-500" />{alert.location}</span>
       </td>
-      <td className="whitespace-nowrap px-4 py-3.5 text-xs text-slate-400">{alert.timestamp}</td>
+      <td className="whitespace-nowrap px-4 py-3.5 font-mono text-xs text-slate-400">{alert.timestamp}</td>
       <td className="px-4 py-3.5"><Badge variant={alertStatusToBadgeVariant(alert.status)}>{alert.status}</Badge></td>
     </tr>
   );
@@ -58,7 +59,7 @@ export function AlertTable({ alerts, onSelect }: AlertTableProps) {
       <div className="hidden overflow-x-auto rounded-xl border border-slate-700/60 lg:block">
         <table className="w-full min-w-[1180px] text-left text-sm">
           <thead>
-            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-[11px] uppercase tracking-wider text-slate-500">
+            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
               <th className="px-4 py-3 font-medium">Alert ID</th>
               <th className="px-4 py-3 font-medium">Alert Type</th>
               <th className="px-4 py-3 font-medium">Severity</th>
@@ -81,7 +82,7 @@ export function AlertTable({ alerts, onSelect }: AlertTableProps) {
             type="button"
             onClick={() => onSelect(alert)}
             data-testid={`card-alert-${alert.id}`}
-            className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60 focus:outline-none focus:ring-1 focus:ring-sky-500/60"
+            className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
             <div className="flex items-start justify-between gap-3">
               <div>

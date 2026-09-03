@@ -43,10 +43,11 @@ export function IncidentTable({ incidents, onSelect }: IncidentTableProps) {
 
   return (
     <>
+      {/* Desktop table */}
       <div className="hidden overflow-hidden rounded-xl border border-slate-700/60 lg:block">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-xs uppercase tracking-wider text-slate-500">
+            <tr className="border-b border-slate-700/60 bg-slate-800/50 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
               <th className="px-4 py-3 font-medium">Incident ID</th>
               <th className="px-4 py-3 font-medium">Type</th>
               <th className="px-4 py-3 font-medium">Location</th>
@@ -60,6 +61,7 @@ export function IncidentTable({ incidents, onSelect }: IncidentTableProps) {
               <tr
                 key={incident.id}
                 tabIndex={0}
+                role="button"
                 onClick={() => onSelect(incident)}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter' || event.key === ' ') {
@@ -67,11 +69,11 @@ export function IncidentTable({ incidents, onSelect }: IncidentTableProps) {
                     onSelect(incident);
                   }
                 }}
-                aria-label={`View details for ${incident.id}`}
+                aria-label={`View details for incident ${incident.id}`}
                 data-testid={`row-incident-${incident.id}`}
-                className="cursor-pointer border-b border-slate-700/40 transition-colors last:border-0 hover:bg-slate-800/40 focus:bg-slate-800/40 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-sky-500/60"
+                className="cursor-pointer border-b border-slate-700/40 transition-colors last:border-0 hover:bg-slate-800/40 focus-visible:bg-slate-800/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-sky-500/60"
               >
-                <td className="px-4 py-3 font-medium text-white">{incident.id}</td>
+                <td className="px-4 py-3 font-mono font-semibold text-slate-100">{incident.id}</td>
                 <td className="px-4 py-3 text-slate-300">{incident.type}</td>
                 <td className="max-w-[290px] px-4 py-3 text-slate-400">
                   <span className="block truncate">{incident.location}</span>
@@ -81,7 +83,7 @@ export function IncidentTable({ incidents, onSelect }: IncidentTableProps) {
                     {severityLabels[incident.severity]}
                   </Badge>
                 </td>
-                <td className="px-4 py-3 text-slate-400">{incident.timestamp}</td>
+                <td className="px-4 py-3 font-mono text-xs text-slate-400">{incident.timestamp}</td>
                 <td className="px-4 py-3">
                   <Badge variant={incidentStatusToBadgeVariant(incident.status)}>{incident.status}</Badge>
                 </td>
@@ -98,11 +100,11 @@ export function IncidentTable({ incidents, onSelect }: IncidentTableProps) {
             type="button"
             onClick={() => onSelect(incident)}
             data-testid={`card-incident-${incident.id}`}
-            className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60"
+            className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 text-left transition-colors hover:bg-slate-800/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-semibold text-white">{incident.id}</p>
+                <p className="font-mono font-semibold text-white">{incident.id}</p>
                 <p className="mt-1 text-sm text-slate-300">{incident.type}</p>
               </div>
               <Badge variant={severityToBadgeVariant(incident.severity)}>

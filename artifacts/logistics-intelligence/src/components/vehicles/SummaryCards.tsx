@@ -63,18 +63,18 @@ export function SummaryCards({
         return (
           <div
             key={card.label}
-            className="flex items-center gap-3 rounded-xl border border-slate-700/60 bg-slate-800/40 px-4 py-3"
+            className="flex items-center gap-3 rounded-xl border border-slate-700/60 bg-slate-800/40 px-4 py-3 transition-colors hover:border-slate-600/70"
           >
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${card.iconClass}`}
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-700/40 ${card.iconClass}`}
             >
               <Icon className="h-5 w-5" />
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-medium uppercase tracking-wider text-slate-500">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                 {card.label}
               </p>
-              <p className="text-xl font-bold text-white">{card.value}</p>
+              <p className="font-mono text-xl font-bold tabular-nums text-white">{card.value}</p>
             </div>
           </div>
         );

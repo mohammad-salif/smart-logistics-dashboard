@@ -34,15 +34,15 @@ export function IncidentSummaryCards({ summary }: IncidentSummaryCardsProps) {
         return (
           <div
             key={card.key}
-            className="flex items-center gap-3 rounded-xl border border-slate-700/60 bg-slate-800/40 px-4 py-3"
+            className="flex items-center gap-3 rounded-xl border border-slate-700/60 bg-slate-800/40 px-4 py-3 transition-colors hover:border-slate-600/70"
             data-testid={`card-incident-summary-${card.key}`}
           >
-            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${card.tone}`}>
+            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-700/40 ${card.tone}`}>
               <Icon className="h-5 w-5" />
             </div>
             <div className="min-w-0">
-              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">{card.label}</p>
-              <p className="text-xl font-bold text-white" data-testid={`text-incident-count-${card.key}`}>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">{card.label}</p>
+              <p className="font-mono text-xl font-bold tabular-nums text-white" data-testid={`text-incident-count-${card.key}`}>
                 {summary[card.key]}
               </p>
             </div>
